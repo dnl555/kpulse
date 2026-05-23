@@ -1,0 +1,14 @@
+run:
+  timeout: 5m
+linters:
+  enable:
+    - errcheck
+    - gofmt
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - unused
+issues:
+  exclude-use-default: false

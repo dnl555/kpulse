@@ -1,0 +1,21 @@
+# binaries
+/kpulse
+/bin/
+/dist/
+
+# go
+*.test
+*.out
+coverage.txt
+
+# editors
+.idea/
+.vscode/
+*.swp
+
+# os
+.DS_Store
+
+# local
+*.local.yaml
+.env
