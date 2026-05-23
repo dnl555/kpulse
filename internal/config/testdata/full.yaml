@@ -1,0 +1,52 @@
+cluster:
+  name: prod-eks-1
+
+channels:
+  slack:
+    webhook_url_from_secret: SLACK_WEBHOOK_URL
+    default: true
+  email:
+    smtp_host: smtp.fastmail.com
+    smtp_port: 587
+    from: alerts@example.com
+    to: [me@example.com]
+    user_from_secret: SMTP_USER
+    pass_from_secret: SMTP_PASS
+  webhook:
+    url: https://hooks.example.com/kpulse
+    headers:
+      Authorization: "Bearer $WEBHOOK_TOKEN"
+
+namespaces:
+  include: ["*"]
+  exclude: [kube-system, kube-public, kpulse]
+
+monitors:
+  pod_crashes:
+    enabled: true
+    reasons: [CrashLoopBackOff, OOMKilled]
+    include_recent_logs: true
+    max_log_lines: 50
+  pvc_usage:
+    enabled: true
+    warn_at: 80
+    crit_at: 90
+    interval: 10m
+  tls_cert_expiry:
+    enabled: true
+    warn_days: 14
+    crit_days: 3
+    interval: 6h
+
+dedupe:
+  window: 30m
+  digest:
+    enabled: true
+    interval: 10m
+    severities: [info, warning]
+
+routing:
+  - match: { severity: critical }
+    channels: [slack, email]
+  - match: { monitor: tls_cert_expiry }
+    channels: [email]
