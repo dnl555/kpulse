@@ -6,19 +6,22 @@
 
 ## 1. Purpose
 
-kpulse is a single-binary, lightweight Kubernetes monitoring agent that ships sensible defaults out of the box and notifies on the failure modes operators actually care about (pod crashes, PVC pressure, node conditions, certificate expiry, stuck rollouts, etc.).
+kpulse is a single-binary, lightweight Kubernetes monitoring agent for **developers and startups running their first cluster**. The goal is to make cluster monitoring useful from day one without forcing a team to first stand up Prometheus, Grafana, Loki, Alertmanager, and an on-call rotation.
 
-It is a fresh implementation, not a fork of kwatch. kwatch is acknowledged as inspiration (MIT) in the project NOTICE, but no kwatch code is reused.
+It is **event-driven, not metrics-storing**. kpulse watches the Kubernetes API and runs targeted periodic probes (PVC %, TLS expiry, kubelet stats), turns failure signals into human-readable alerts, and delivers them to Slack / email / webhook / Discord / Teams. It does not store time series, render dashboards, or replace Prometheus. Teams that outgrow it add Prometheus alongside kpulse, not instead of it.
+
+It is a fresh implementation, not a fork of kwatch. kwatch is acknowledged as inspiration (MIT) in the project NOTICE; no kwatch code is reused.
 
 Design goals, in priority order:
 
-1. **One-command install.** `curl ... | bash` followed by editing one Secret + one ConfigMap.
-2. **Useful from minute one.** All 12 built-in monitors enabled with defaults that are quiet on a healthy cluster and loud on a sick one.
-3. **One process, one image.** No sidecars, no operators, no CRDs. ~20 MB distroless image.
-4. **Pluggable channels.** Slack, email (SMTP), generic webhook, Discord, Teams in v1.
-5. **Hands-off operation.** Dedupe + rate limit + optional digest so it does not spam.
+1. **Day-1 useful for a small team.** A solo founder or a 3-person dev team should install kpulse, paste one Slack webhook, and immediately have eyes on the failure modes that wake teams up at night.
+2. **One-command install.** `curl ... | bash` followed by editing one Secret + one ConfigMap.
+3. **Useful by default.** All 12 built-in monitors enabled with defaults that are quiet on a healthy cluster and loud on a sick one.
+4. **One process, one image.** No sidecars, no operators, no CRDs. ~20 MB distroless image, ~64 Mi memory request.
+5. **Pluggable channels.** Slack, email (SMTP), generic webhook, Discord, Teams in v1.
+6. **Hands-off operation.** Dedupe + rate limit + optional digest so it does not spam.
 
-Explicit non-goals for v1: web UI, persistent storage, Helm chart (added later), CRDs, PagerDuty/Opsgenie, scraping Prometheus.
+Explicit non-goals for v1: web UI, time-series storage, metrics scraping, dashboards, replacing Prometheus / Grafana / Loki / Alertmanager, Helm chart (added later), CRDs, PagerDuty / Opsgenie, multi-cluster federation.
 
 ## 2. Architecture
 
