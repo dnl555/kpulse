@@ -12,7 +12,7 @@ import (
 
 type sentinel struct{ called bool }
 
-func (s *sentinel) Name() string                                 { return "stub" }
+func (s *sentinel) Name() string                                { return "stub" }
 func (s *sentinel) Send(_ context.Context, _ alert.Alert) error { s.called = true; return nil }
 
 func TestHealthz(t *testing.T) {
