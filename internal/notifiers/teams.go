@@ -52,7 +52,7 @@ func (t *Teams) Send(ctx context.Context, a alert.Alert) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	if resp.StatusCode >= 300 {
 		buf, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("teams http %d: %s", resp.StatusCode, string(buf))

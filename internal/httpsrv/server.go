@@ -31,7 +31,7 @@ func (s *Server) Handler() http.Handler {
 		_, _ = w.Write([]byte("ok"))
 	})
 	mux.HandleFunc("/metrics", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprintf(w, "# kpulse self metrics placeholder\nkpulse_up 1\n")
+		_, _ = fmt.Fprintf(w, "# kpulse self metrics placeholder\nkpulse_up 1\n")
 	})
 	mux.HandleFunc("/test-channel", func(w http.ResponseWriter, r *http.Request) {
 		name := r.URL.Query().Get("name")
