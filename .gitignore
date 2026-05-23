@@ -19,3 +19,6 @@ coverage.txt
 # local
 *.local.yaml
 .env
+
+# planning artifacts (kept locally, not published)
+docs/superpowers/

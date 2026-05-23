@@ -1,0 +1,18 @@
+kpulse is installed.
+
+1. Verify the pod is running:
+     kubectl -n {{ .Release.Namespace }} get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+{{ if not (or .Values.channels.slack.enabled .Values.channels.email.enabled .Values.channels.webhook.enabled .Values.channels.discord.enabled .Values.channels.teams.enabled) -}}
+2. WARNING: no channels enabled. Alerts will fire but go nowhere.
+   Set one of channels.{slack,email,webhook,discord,teams}.enabled=true
+   and add its credentials to channels.secrets, then:
+     helm upgrade {{ .Release.Name }} {{ .Chart.Name }} ...
+{{- else -}}
+2. Test a channel:
+     kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "kpulse.fullname" . }} 8080:{{ .Values.service.port }} &
+     curl 'http://localhost:8080/test-channel?name=slack'
+{{- end }}
+
+Docs: https://github.com/dnl555/kpulse
+Site: https://kpulse.io

@@ -1,8 +1,25 @@
 # kpulse
 
-Event-driven Kubernetes monitoring for developers and startups on their first cluster.
+[![ci](https://github.com/dnl555/kpulse/actions/workflows/ci.yml/badge.svg)](https://github.com/dnl555/kpulse/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/dnl555/kpulse?sort=semver)](https://github.com/dnl555/kpulse/releases)
+[![license](https://img.shields.io/github/license/dnl555/kpulse)](LICENSE)
 
-kpulse is **not** a Prometheus replacement and does not store metrics. It watches the cluster, catches the failure modes that wake teams up at night (pod crashes, PVC full, certs expiring, rollouts stuck), and pings Slack / email / webhook. One Pod, one ConfigMap, ~64 Mi of memory. Outgrow it later by adding Prometheus alongside, not instead.
+> Event-driven Kubernetes monitoring for developers and startups on their first cluster.
+> One Pod, one ConfigMap, ~64 Mi of memory. Slack / email / webhook out of the box.
+> **Not** a Prometheus replacement. Web: [kpulse.io](https://kpulse.io)
+
+kpulse watches the cluster, catches the failure modes that wake teams up at night (pod crashes, PVC full, certs expiring, rollouts stuck), and pings the channel of your choice. Outgrow it later by adding Prometheus alongside, not instead.
+
+## TL;DR
+
+```bash
+curl -fsSL https://kpulse.io/install.sh | bash
+kubectl -n kpulse edit secret kpulse-secrets   # add SLACK_WEBHOOK_URL
+kubectl -n kpulse edit configmap kpulse-config # uncomment slack stanza, set cluster.name
+kubectl -n kpulse rollout restart deploy/kpulse
+```
+
+You now have alerts on 12 common cluster failure modes flowing to Slack.
 
 ## Why kpulse
 
@@ -13,7 +30,7 @@ kpulse is **not** a Prometheus replacement and does not store metrics. It watche
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dnl555/kpulse/main/deploy/install.sh | bash
+curl -fsSL https://kpulse.io/install.sh | bash
 ```
 
 Then configure a channel:
@@ -49,6 +66,33 @@ curl 'http://localhost:8080/test-channel?name=slack'
 | daemonset_unscheduled | desired != ready for > 10 min | warning |
 
 Full details and how to deliberately trigger each one: [docs/monitors.md](docs/monitors.md).
+
+## Install options
+
+| Method | Command |
+|---|---|
+| One-line script | `curl -fsSL https://kpulse.io/install.sh \| bash` |
+| Raw manifest | `kubectl apply -f https://github.com/dnl555/kpulse/releases/latest/download/kpulse.yaml` |
+| Helm | `helm install kpulse oci://ghcr.io/dnl555/charts/kpulse --namespace kpulse --create-namespace` |
+| Local build | `git clone ... && make build image` |
+
+## Contributing
+
+Issues and PRs welcome. The codebase is intentionally small (~1500 LOC Go, 7 packages):
+
+```
+internal/
+  alert/        Alert struct + Severity
+  config/       ConfigMap parser + Secret resolver
+  notifiers/    Slack / SMTP / webhook / Discord / Teams
+  engine/       dedupe, routing, digest
+  state/        ConfigMap-backed persistence
+  monitors/     12 monitors (informer-based + periodic)
+  httpsrv/      /healthz, /readyz, /metrics, /test-channel
+cmd/kpulse/     main wiring
+```
+
+Run `make test` to test, `make build` to build the binary, `make image VERSION=dev` to build the image.
 
 ## Channels
 

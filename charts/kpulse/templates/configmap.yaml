@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kpulse.fullname" . }}-config
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "kpulse.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    cluster:
+      name: {{ required "clusterName is required" .Values.clusterName | quote }}
+
+    channels:
+      {{- if .Values.channels.slack.enabled }}
+      slack:
+        webhook_url_from_secret: {{ .Values.channels.slack.webhookUrlFromSecret }}
+        default: {{ .Values.channels.slack.default }}
+      {{- end }}
+      {{- if .Values.channels.email.enabled }}
+      email:
+        smtp_host: {{ .Values.channels.email.smtpHost }}
+        smtp_port: {{ .Values.channels.email.smtpPort }}
+        from: {{ .Values.channels.email.from | quote }}
+        to: {{ .Values.channels.email.to | toJson }}
+        user_from_secret: {{ .Values.channels.email.userFromSecret }}
+        pass_from_secret: {{ .Values.channels.email.passFromSecret }}
+      {{- end }}
+      {{- if .Values.channels.webhook.enabled }}
+      webhook:
+        url: {{ .Values.channels.webhook.url | quote }}
+        {{- with .Values.channels.webhook.headers }}
+        headers:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.channels.discord.enabled }}
+      discord:
+        webhook_url_from_secret: {{ .Values.channels.discord.webhookUrlFromSecret }}
+      {{- end }}
+      {{- if .Values.channels.teams.enabled }}
+      teams:
+        webhook_url_from_secret: {{ .Values.channels.teams.webhookUrlFromSecret }}
+      {{- end }}
+
+    namespaces:
+{{ toYaml .Values.namespaces | indent 6 }}
+
+    monitors:
+{{ toYaml .Values.monitors | indent 6 }}
+
+    dedupe:
+{{ toYaml .Values.dedupe | indent 6 }}
+
+    routing:
+{{ toYaml .Values.routing | indent 6 }}

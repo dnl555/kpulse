@@ -1,0 +1,19 @@
+apiVersion: v2
+name: kpulse
+description: Event-driven Kubernetes monitoring for developers and startups on their first cluster.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://kpulse.io
+sources:
+  - https://github.com/dnl555/kpulse
+maintainers:
+  - name: Danilo Acquaviva
+    url: https://github.com/dnl555
+keywords:
+  - monitoring
+  - alerting
+  - kubernetes
+  - slack
+  - lightweight
+icon: https://kpulse.io/icon.png

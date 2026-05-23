@@ -1,0 +1,139 @@
+# Default values for kpulse.
+# All knobs documented inline.
+
+image:
+  repository: ghcr.io/dnl555/kpulse
+  tag: ""            # defaults to .Chart.AppVersion
+  pullPolicy: IfNotPresent
+
+# Cluster name shown in every alert title. REQUIRED.
+clusterName: ""
+
+# Channel credentials. Anything you put under .channels.secrets becomes
+# keys in Secret/kpulse-secrets, referenced by name from the ConfigMap.
+# Example:
+#   channels:
+#     secrets:
+#       SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/T0/B0/xxx"
+#       SMTP_USER: "alerts@example.com"
+#       SMTP_PASS: "hunter2"
+channels:
+  secrets: {}
+
+  slack:
+    enabled: false
+    webhookUrlFromSecret: SLACK_WEBHOOK_URL
+    default: true
+
+  email:
+    enabled: false
+    smtpHost: ""
+    smtpPort: 587
+    from: ""
+    to: []
+    userFromSecret: SMTP_USER
+    passFromSecret: SMTP_PASS
+
+  webhook:
+    enabled: false
+    url: ""
+    headers: {}
+
+  discord:
+    enabled: false
+    webhookUrlFromSecret: DISCORD_WEBHOOK_URL
+
+  teams:
+    enabled: false
+    webhookUrlFromSecret: TEAMS_WEBHOOK_URL
+
+namespaces:
+  include: ["*"]
+  exclude: [kube-system, kube-public, kpulse]
+
+# Per-monitor knobs. Each monitor's "enabled" is independent.
+monitors:
+  pod_crashes:
+    enabled: true
+    reasons: [CrashLoopBackOff, OOMKilled, ImagePullBackOff, ErrImagePull, CreateContainerConfigError, FailedScheduling, FailedMount, Evicted]
+    include_recent_logs: true
+    max_log_lines: 50
+  pod_restarts:
+    enabled: true
+    threshold: 5
+    window: 15m
+  warning_events:
+    enabled: true
+    reasons_ignore: [FailedGracefulShutdown, Unhealthy]
+  pvc_usage:
+    enabled: true
+    warn_at: 80
+    crit_at: 90
+    interval: 10m
+  node_conditions:
+    enabled: true
+    alert_on: [DiskPressure, MemoryPressure, PIDPressure, NotReady]
+  node_disk:
+    enabled: true
+    warn_at: 85
+    crit_at: 92
+    interval: 10m
+  tls_cert_expiry:
+    enabled: true
+    warn_days: 14
+    crit_days: 3
+    interval: 6h
+  rollout_stuck:
+    enabled: true
+    threshold: 15m
+  job_failed:
+    enabled: true
+  cronjob_missed:
+    enabled: true
+    miss_threshold: 2
+  hpa_at_max:
+    enabled: true
+    duration: 30m
+  daemonset_unscheduled:
+    enabled: true
+    threshold: 10m
+
+dedupe:
+  window: 30m
+  digest:
+    enabled: true
+    interval: 10m
+    severities: [info, warning]
+
+# Optional routing rules. First match wins. Empty = every alert -> default channel.
+# Example:
+#   routing:
+#     - match: { severity: critical }
+#       channels: [slack, email]
+routing: []
+
+# Deployment knobs.
+replicaCount: 1
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+serviceAccount:
+  create: true
+  name: ""
+
+rbac:
+  create: true
+
+service:
+  type: ClusterIP
+  port: 8080
+
+podAnnotations: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

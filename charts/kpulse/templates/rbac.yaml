@@ -1,0 +1,76 @@
+{{- if .Values.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "kpulse.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "kpulse.labels" . | nindent 4 }}
+{{- end }}
+{{- if .Values.rbac.create }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kpulse.fullname" . }}
+  labels: {{- include "kpulse.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: [pods, events, nodes, persistentvolumeclaims, secrets, namespaces, configmaps]
+    verbs: [get, list, watch]
+  - apiGroups: [""]
+    resources: [nodes/proxy]
+    verbs: [get]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, daemonsets]
+    verbs: [get, list, watch]
+  - apiGroups: [batch]
+    resources: [jobs, cronjobs]
+    verbs: [get, list, watch]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get, list, watch]
+  - apiGroups: [events.k8s.io]
+    resources: [events]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "kpulse.fullname" . }}
+  labels: {{- include "kpulse.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "kpulse.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "kpulse.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "kpulse.fullname" . }}-state
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "kpulse.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [get, create, update, patch]
+    resourceNames: [{{ include "kpulse.fullname" . }}-state]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "kpulse.fullname" . }}-state
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "kpulse.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "kpulse.fullname" . }}-state
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "kpulse.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}
