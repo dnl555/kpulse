@@ -1,0 +1,206 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kpulse
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kpulse
+  namespace: kpulse
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kpulse
+rules:
+  - apiGroups: [""]
+    resources: [pods, events, nodes, persistentvolumeclaims, secrets, namespaces, configmaps]
+    verbs: [get, list, watch]
+  - apiGroups: [""]
+    resources: [nodes/proxy]
+    verbs: [get]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, daemonsets]
+    verbs: [get, list, watch]
+  - apiGroups: [batch]
+    resources: [jobs, cronjobs]
+    verbs: [get, list, watch]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get, list, watch]
+  - apiGroups: [events.k8s.io]
+    resources: [events]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kpulse-state
+  namespace: kpulse
+rules:
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [get, create, update, patch]
+    resourceNames: [kpulse-state]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kpulse
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kpulse
+subjects:
+  - kind: ServiceAccount
+    name: kpulse
+    namespace: kpulse
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kpulse-state
+  namespace: kpulse
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kpulse-state
+subjects:
+  - kind: ServiceAccount
+    name: kpulse
+    namespace: kpulse
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kpulse-config
+  namespace: kpulse
+data:
+  config.yaml: |
+    # ---------------- kpulse configuration ----------------
+    # Edit channel credentials in Secret/kpulse-secrets, not here.
+    # After editing this file: kubectl -n kpulse rollout restart deploy/kpulse
+
+    cluster:
+      name: REPLACE_ME
+
+    channels:
+      # Uncomment a channel and add matching secret keys to Secret/kpulse-secrets.
+      # slack:
+      #   webhook_url_from_secret: SLACK_WEBHOOK_URL
+      #   default: true
+      # email:
+      #   smtp_host: smtp.example.com
+      #   smtp_port: 587
+      #   from: alerts@example.com
+      #   to: [you@example.com]
+      #   user_from_secret: SMTP_USER
+      #   pass_from_secret: SMTP_PASS
+      # webhook:
+      #   url: https://hooks.example.com/kpulse
+      #   headers: { Authorization: "Bearer $WEBHOOK_TOKEN" }
+      # discord:
+      #   webhook_url_from_secret: DISCORD_WEBHOOK_URL
+      # teams:
+      #   webhook_url_from_secret: TEAMS_WEBHOOK_URL
+
+    namespaces:
+      include: ["*"]
+      exclude: [kube-system, kube-public, kpulse]
+
+    monitors:
+      pod_crashes:           { enabled: true,  reasons: [CrashLoopBackOff, OOMKilled, ImagePullBackOff, ErrImagePull, CreateContainerConfigError, FailedScheduling, FailedMount, Evicted], include_recent_logs: true, max_log_lines: 50 }
+      pod_restarts:          { enabled: true,  threshold: 5, window: 15m }
+      warning_events:        { enabled: true,  reasons_ignore: [FailedGracefulShutdown, Unhealthy] }
+      pvc_usage:             { enabled: true,  warn_at: 80, crit_at: 90, interval: 10m }
+      node_conditions:       { enabled: true,  alert_on: [DiskPressure, MemoryPressure, PIDPressure, NotReady] }
+      node_disk:             { enabled: true,  warn_at: 85, crit_at: 92, interval: 10m }
+      tls_cert_expiry:       { enabled: true,  warn_days: 14, crit_days: 3, interval: 6h }
+      rollout_stuck:         { enabled: true,  threshold: 15m }
+      job_failed:            { enabled: true }
+      cronjob_missed:        { enabled: true,  miss_threshold: 2 }
+      hpa_at_max:            { enabled: true,  duration: 30m }
+      daemonset_unscheduled: { enabled: true,  threshold: 10m }
+
+    dedupe:
+      window: 30m
+      digest:
+        enabled: true
+        interval: 10m
+        severities: [info, warning]
+
+    routing: []
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kpulse-secrets
+  namespace: kpulse
+type: Opaque
+stringData:
+  PLACEHOLDER: "edit this Secret to add channel credentials, e.g. SLACK_WEBHOOK_URL"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kpulse
+  namespace: kpulse
+spec:
+  selector: { app: kpulse }
+  ports:
+    - { name: http, port: 8080, targetPort: 8080 }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kpulse
+  namespace: kpulse
+  labels: { app: kpulse }
+spec:
+  replicas: 1
+  strategy: { type: Recreate }
+  selector: { matchLabels: { app: kpulse } }
+  template:
+    metadata:
+      labels: { app: kpulse }
+    spec:
+      serviceAccountName: kpulse
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: kpulse
+          image: ghcr.io/dnl555/kpulse:__VERSION__
+          imagePullPolicy: IfNotPresent
+          args: ["--config=/etc/kpulse/config.yaml", "--secrets=/etc/kpulse/secrets"]
+          env:
+            - name: POD_NAMESPACE
+              valueFrom: { fieldRef: { fieldPath: metadata.namespace } }
+          ports:
+            - { name: http, containerPort: 8080 }
+          readinessProbe:
+            httpGet: { path: /readyz, port: 8080 }
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 25m, memory: 64Mi }
+            limits:   { cpu: 200m, memory: 256Mi }
+          volumeMounts:
+            - { name: config, mountPath: /etc/kpulse }
+            - { name: secrets, mountPath: /etc/kpulse/secrets, readOnly: true }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+      volumes:
+        - name: config
+          configMap: { name: kpulse-config, items: [{ key: config.yaml, path: config.yaml }] }
+        - name: secrets
+          secret: { secretName: kpulse-secrets }
