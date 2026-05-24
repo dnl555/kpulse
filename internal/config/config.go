@@ -191,8 +191,17 @@ func defaults() *Config {
 				Reasons:           []string{"CrashLoopBackOff", "OOMKilled", "ImagePullBackOff", "ErrImagePull", "CreateContainerConfigError", "FailedScheduling", "FailedMount", "Evicted"},
 				IncludeRecentLogs: true, MaxLogLines: 50,
 			},
-			PodRestarts:          PodRestartsMon{Enabled: true, Threshold: 5, Window: 15 * time.Minute},
-			WarningEvents:        WarningEventsMon{Enabled: true, ReasonsIgnore: []string{"FailedGracefulShutdown", "Unhealthy"}},
+			PodRestarts: PodRestartsMon{Enabled: true, Threshold: 5, Window: 15 * time.Minute},
+			WarningEvents: WarningEventsMon{Enabled: true, ReasonsIgnore: []string{
+				// Probe flap noise.
+				"FailedGracefulShutdown", "Unhealthy",
+				// Owned by pod_crashes; would dupe-alert.
+				"Failed", "BackOff",
+				// Owned by job_failed.
+				"BackoffLimitExceeded",
+				// k3d/Docker Desktop kubelet quirk; not actionable.
+				"InvalidDiskCapacity",
+			}},
 			PVCUsage:             PVCUsageMon{Enabled: true, WarnAt: 80, CritAt: 90, Interval: 10 * time.Minute},
 			NodeConditions:       NodeConditionsMon{Enabled: true, AlertOn: []string{"DiskPressure", "MemoryPressure", "PIDPressure", "NotReady"}},
 			NodeDisk:             NodeDiskMon{Enabled: true, WarnAt: 85, CritAt: 92, Interval: 10 * time.Minute},

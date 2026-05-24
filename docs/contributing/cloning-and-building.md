@@ -93,3 +93,37 @@ go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.0
 
 golangci-lint run
 ```
+
+## Live-reload dev loop with Tilt
+
+The repo ships a `Tiltfile` that compiles, deploys, and watches the source on a local k3d cluster. Loop time is ~10-15 s per change.
+
+Prereqs (one-time):
+
+```bash
+brew install tilt-dev/tap/tilt k3d
+k3d cluster create kpulse-test
+kubectl config use-context k3d-kpulse-test
+```
+
+Run:
+
+```bash
+tilt up                   # builds, deploys, watches; opens Tilt UI
+tilt up -- triggers       # also deploy intentionally-broken workloads
+tilt down                 # tear it all back down
+```
+
+What you get:
+
+- **kpulse** running with the in-cluster generic webhook channel wired to a tiny echo sink. Open `http://localhost:8080/test-channel?name=webhook` to send a synthetic alert; open `http://localhost:8081/` to inspect the sink's request log.
+- A `demo` namespace with the **sink** Deployment.
+- Optional `triggers` namespace with deliberately broken Pods (CrashLoopBackOff, ImagePullBackOff, OOMKilled, failing Job) to validate the alert path.
+
+To test a real channel (Slack, email, etc.), patch the Secret out of band; `kubectl apply` of the dev manifest never touches the Secret:
+
+```bash
+kubectl -n kpulse patch secret kpulse-secrets --type=merge \
+  -p '{"stringData":{"SLACK_WEBHOOK_URL":"https://hooks.slack.com/services/..."}}'
+kubectl -n kpulse rollout restart deploy/kpulse
+```

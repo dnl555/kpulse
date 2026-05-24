@@ -40,9 +40,14 @@ metadata:
   name: kpulse-state
   namespace: kpulse
 rules:
+  # K8s RBAC ignores resourceNames for 'create', so the create verb has to
+  # live in its own rule scoped to the kpulse namespace only.
   - apiGroups: [""]
     resources: [configmaps]
-    verbs: [get, create, update, patch]
+    verbs: [create]
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [get, update, patch]
     resourceNames: [kpulse-state]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -113,7 +118,7 @@ data:
     monitors:
       pod_crashes:           { enabled: true,  reasons: [CrashLoopBackOff, OOMKilled, ImagePullBackOff, ErrImagePull, CreateContainerConfigError, FailedScheduling, FailedMount, Evicted], include_recent_logs: true, max_log_lines: 50 }
       pod_restarts:          { enabled: true,  threshold: 5, window: 15m }
-      warning_events:        { enabled: true,  reasons_ignore: [FailedGracefulShutdown, Unhealthy] }
+      warning_events:        { enabled: true,  reasons_ignore: [FailedGracefulShutdown, Unhealthy, Failed, BackOff, BackoffLimitExceeded, InvalidDiskCapacity] }
       pvc_usage:             { enabled: true,  warn_at: 80, crit_at: 90, interval: 10m }
       node_conditions:       { enabled: true,  alert_on: [DiskPressure, MemoryPressure, PIDPressure, NotReady] }
       node_disk:             { enabled: true,  warn_at: 85, crit_at: 92, interval: 10m }
@@ -139,15 +144,14 @@ data:
       enabled: true
 
     routing: []
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: kpulse-secrets
-  namespace: kpulse
-type: Opaque
-stringData:
-  PLACEHOLDER: "edit this Secret to add channel credentials, e.g. SLACK_WEBHOOK_URL"
+# NOTE: Secret/kpulse-secrets is intentionally not bundled. install.sh
+# creates it once if missing; subsequent re-applies of this manifest will
+# NOT wipe credentials you have added with `kubectl -n kpulse patch secret`
+# or `kubectl -n kpulse edit secret`. To bootstrap manually:
+#
+#   kubectl -n kpulse create secret generic kpulse-secrets \
+#     --from-literal=SLACK_WEBHOOK_URL=... \
+#     --from-literal=SMTP_USER=... --from-literal=SMTP_PASS=...
 ---
 apiVersion: v1
 kind: Service
@@ -210,4 +214,7 @@ spec:
         - name: config
           configMap: { name: kpulse-config, items: [{ key: config.yaml, path: config.yaml }] }
         - name: secrets
-          secret: { secretName: kpulse-secrets }
+          # optional: the Pod tolerates kpulse-secrets being absent so first
+          # boot does not block on credentials. install.sh creates a stub if
+          # missing; you replace it later with real channel creds.
+          secret: { secretName: kpulse-secrets, optional: true }

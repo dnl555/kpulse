@@ -60,8 +60,16 @@ monitors:
     reasons_ignore:
       - FailedGracefulShutdown
       - Unhealthy
+      - Failed                # owned by pod_crashes
+      - BackOff               # owned by pod_crashes
+      - BackoffLimitExceeded  # owned by job_failed
+      - InvalidDiskCapacity   # k3d / Docker Desktop kubelet quirk
 ```
 
-The default ignore list filters out two reasons that fire constantly during normal probe flaps. If you see other recurring noise, add the reason here.
+The defaults strip the most common noise:
 
-Example reasons you might choose to ignore: `BackOff` (covered by `pod_crashes`), `FailedKillPod`, `Killing`.
+- **Probe flaps:** `FailedGracefulShutdown`, `Unhealthy` fire constantly during normal probe transitions.
+- **Already covered:** `Failed` and `BackOff` are emitted by the kubelet for the same crashes that `pod_crashes` already alerts on; `BackoffLimitExceeded` duplicates `job_failed`. Including them here avoids two alerts per real failure.
+- **k3d quirk:** `InvalidDiskCapacity` fires on k3d/Docker Desktop nodes because the kubelet can't stat the host-backed image filesystem. Not actionable.
+
+If you see other recurring noise, add the reason here.
