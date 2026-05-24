@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -146,14 +147,26 @@ func loadSecretDir(dir string) (config.SecretMap, error) {
 		return nil, err
 	}
 	for _, e := range entries {
-		if e.IsDir() {
+		name := e.Name()
+		// Kubernetes projects Secrets via a "..data" symlink to a timestamped
+		// dir (e.g. "..2026_05_24_09_06_08.123456"). Skip the bookkeeping
+		// entries; the real keys are flat files in the same directory.
+		if strings.HasPrefix(name, "..") {
 			continue
 		}
-		data, err := os.ReadFile(filepath.Join(dir, e.Name()))
+		path := filepath.Join(dir, name)
+		info, err := os.Stat(path)
 		if err != nil {
 			return nil, err
 		}
-		out[e.Name()] = string(trimNewline(data))
+		if info.IsDir() {
+			continue
+		}
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return nil, err
+		}
+		out[name] = string(trimNewline(data))
 	}
 	return out, nil
 }
