@@ -16,6 +16,8 @@
         <link rel="prev" href="../contributing/github-workflow/">
       
       
+        <link rel="next" href="why-kpulse/">
+      
       
         
       
@@ -25,7 +27,7 @@
     
     
       
-        <title>Blog - kpulse</title>
+        <title>Overview - kpulse</title>
       
     
     
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Blog
+              Overview
             
           </span>
         </div>
@@ -1086,16 +1088,40 @@
   
   
   
-    <li class="md-nav__item md-nav__item--active">
+    
+    
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
+        
+          
+        
       
         
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
           
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
   
   
   <span class="md-ellipsis">
@@ -1109,17 +1135,43 @@
   
   
 
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="why-kpulse/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Blog
+    Why kpulse exists
   
 
     
@@ -1128,36 +1180,97 @@
   
 
       </a>
-      
-        
+    </li>
+  
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+              
+            
+              
+                
   
   
   
+  
+    <li class="md-nav__item">
+      <a href="default-monitors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     
   
+    The 12 default monitors
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#coming-soon" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Coming soon
-      
-    </span>
-  </a>
+
+    
+  </span>
   
-</li>
-      
-    </ul>
   
-</nav>
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resolved-alerts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resolved alerts, the missing half
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dev-with-tilt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local-only dev with Tilt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1190,10 +1303,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#coming-soon" class="md-nav__link">
+  <a href="#posts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Coming soon
+        Posts
       
     </span>
   </a>
@@ -1226,14 +1339,14 @@
 
 
 <h1 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">&para;</a></h1>
-<p>Posts about kpulse's design, releases, and the small operational lessons that shape it.</p>
-<h2 id="coming-soon">Coming soon<a class="headerlink" href="#coming-soon" title="Permanent link">&para;</a></h2>
+<p>Notes on what we ship, why we shipped it that way, and the small operational lessons that shape kpulse.</p>
+<h2 id="posts">Posts<a class="headerlink" href="#posts" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Why event-driven, not metrics.</strong> The reasoning behind making kpulse a Prometheus alternative-for-day-one rather than a Prometheus competitor.</li>
-<li><strong>The 12 default monitors.</strong> How each threshold was chosen and what they catch in practice.</li>
-<li><strong>v0.2 plans.</strong> Mattermost, PagerDuty bridges, and an opt-in mini-UI for browsing recent alerts.</li>
+<li><a href="why-kpulse/">Why kpulse exists</a> &mdash; the gap between "I just <code>kubectl applied</code> my first thing" and "I have Prometheus, Grafana, and Alertmanager on call".</li>
+<li><a href="default-monitors/">The 12 default monitors, and why those thresholds</a> &mdash; a reasoned tour of every default kpulse ships with.</li>
+<li><a href="resolved-alerts/">Resolved alerts: the missing half of alerting</a> &mdash; why a notification that fires once and then goes silent is half a feature.</li>
+<li><a href="dev-with-tilt/">Local-only dev with Tilt: changing kpulse without a release</a> &mdash; how the contributor loop works, and why we didn't pick a registry pattern.</li>
 </ul>
-<p>If you have a topic you'd like to read about, <a href="https://github.com/dnl555/kpulse/issues/new">open an issue</a> with the <code>blog-suggestion</code> label.</p>
 
 
 

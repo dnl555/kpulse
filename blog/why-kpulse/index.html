@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Event-driven Kubernetes monitoring for developers and startups on their first cluster.">
+        <meta name="description" content="The gap between "I just kubectl applied my first thing" and "I have Prometheus, Grafana, and Alertmanager on call".">
       
       
       
-        <link rel="canonical" href="https://dnl555.github.io/kpulse/channels/slack/">
+        <link rel="canonical" href="https://dnl555.github.io/kpulse/blog/why-kpulse/">
       
       
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../email/">
+        <link rel="next" href="../default-monitors/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Slack - kpulse</title>
+        <title>Why kpulse exists - kpulse</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#slack" class="md-skip">
+        <a href="#why-kpulse-exists" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Slack
+              Why kpulse exists
             
           </span>
         </div>
@@ -469,8 +469,6 @@
       
   
   
-    
-  
   
   
     
@@ -499,15 +497,17 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../channels/" class="md-nav__link ">
               
   
   
@@ -531,7 +531,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -548,37 +548,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Slack
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../channels/slack/" class="md-nav__link">
         
   
   
@@ -594,81 +567,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#get-a-webhook-url" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get a webhook URL
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#message-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Message format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Helm
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -681,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../email/" class="md-nav__link">
+      <a href="../../channels/email/" class="md-nav__link">
         
   
   
@@ -709,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../webhook/" class="md-nav__link">
+      <a href="../../channels/webhook/" class="md-nav__link">
         
   
   
@@ -737,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../discord/" class="md-nav__link">
+      <a href="../../channels/discord/" class="md-nav__link">
         
   
   
@@ -765,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../teams/" class="md-nav__link">
+      <a href="../../channels/teams/" class="md-nav__link">
         
   
   
@@ -1186,6 +1084,8 @@
       
   
   
+    
+  
   
   
     
@@ -1212,17 +1112,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../blog/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1246,7 +1144,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1263,10 +1161,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../blog/why-kpulse/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why kpulse exists
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1282,6 +1207,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-actually-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it actually does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-event-driven-not-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why event-driven, not metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-kpulse-is-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What kpulse is NOT
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-kpulse-is-the-wrong-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When kpulse is the wrong answer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-it-goes-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where it goes next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1294,7 +1294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/default-monitors/" class="md-nav__link">
+      <a href="../default-monitors/" class="md-nav__link">
         
   
   
@@ -1322,7 +1322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/resolved-alerts/" class="md-nav__link">
+      <a href="../resolved-alerts/" class="md-nav__link">
         
   
   
@@ -1350,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/dev-with-tilt/" class="md-nav__link">
+      <a href="../dev-with-tilt/" class="md-nav__link">
         
   
   
@@ -1405,10 +1405,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-a-webhook-url" class="md-nav__link">
+  <a href="#what-it-actually-does" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get a webhook URL
+        What it actually does
       
     </span>
   </a>
@@ -1416,10 +1416,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
+  <a href="#why-event-driven-not-metrics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configure
+        Why event-driven, not metrics
       
     </span>
   </a>
@@ -1427,10 +1427,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
+  <a href="#what-kpulse-is-not" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Test
+        What kpulse is NOT
       
     </span>
   </a>
@@ -1438,10 +1438,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#message-format" class="md-nav__link">
+  <a href="#when-kpulse-is-the-wrong-answer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Message format
+        When kpulse is the wrong answer
       
     </span>
   </a>
@@ -1449,10 +1449,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
+  <a href="#where-it-goes-next" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helm
+        Where it goes next
       
     </span>
   </a>
@@ -1476,7 +1476,7 @@
 
 
   
-    <a href="https://github.com/dnl555/kpulse/edit/main/docs/channels/slack.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/dnl555/kpulse/edit/main/docs/blog/why-kpulse.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1484,55 +1484,51 @@
   
 
 
-<h1 id="slack">Slack<a class="headerlink" href="#slack" title="Permanent link">&para;</a></h1>
-<p>Standard Slack incoming webhook. The lowest-friction channel to set up.</p>
-<h2 id="get-a-webhook-url">Get a webhook URL<a class="headerlink" href="#get-a-webhook-url" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Go to <a href="https://api.slack.com/messaging/webhooks">api.slack.com/messaging/webhooks</a>.</li>
-<li>Create or pick a Slack app, enable Incoming Webhooks, add one for the target channel.</li>
-<li>Copy the URL: <code>https://hooks.slack.com/services/T0XXX/B0XXX/xxxxxx</code>.</li>
-</ol>
-<h2 id="configure">Configure<a class="headerlink" href="#configure" title="Permanent link">&para;</a></h2>
-<p>ConfigMap:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">channels</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">slack</span><span class="p">:</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">webhook_url_from_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SLACK_WEBHOOK_URL</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<h1 id="why-kpulse-exists">Why kpulse exists<a class="headerlink" href="#why-kpulse-exists" title="Permanent link">&para;</a></h1>
+<p>There is a strange period in a startup's life. You have a Kubernetes cluster. You have one, maybe two services on it. Things mostly work. And there is no real monitoring.</p>
+<p>You know you should fix this. You also know the standard answer: Prometheus, Grafana, Loki, Alertmanager, an exporter for each thing you care about, a few hundred lines of YAML, and a couple of evenings setting it all up. You will get there eventually. You will not get there today.</p>
+<p>In the meantime, your cluster is silently telling you things. The frontend Pod has been crashing every six minutes for an hour. A PVC is at 96% full. The cert on your staging ingress expires tomorrow. None of this reaches you. It will reach you in the form of a customer message, or a coworker's screenshot, or your own confused 3am pager that turns out to have been preventable.</p>
+<p>kpulse exists to cover that period. It is not a Prometheus replacement. It is what you install before you are ready for Prometheus, and what you keep running alongside Prometheus after.</p>
+<h2 id="what-it-actually-does">What it actually does<a class="headerlink" href="#what-it-actually-does" title="Permanent link">&para;</a></h2>
+<p>kpulse is a single Go binary that runs in a single Pod. It watches the Kubernetes API and runs a handful of periodic probes. When something looks bad, it sends a human-readable message to a channel of your choice: Slack, email, generic webhook, Discord, Microsoft Teams. When the thing stops looking bad, it sends a <code>[RESOLVED]</code> message.</p>
+<p>No time series. No PromQL. No dashboards. No silencing rules. The whole thing fits in your head.</p>
+<p>Install:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://kpulse.io/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>secret<span class="w"> </span>kpulse-secrets<span class="w">   </span><span class="c1"># add SLACK_WEBHOOK_URL</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>configmap<span class="w"> </span>kpulse-config<span class="w"> </span><span class="c1"># enable slack, set cluster.name</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
 </code></pre></div>
-<p>Secret:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>secret<span class="w"> </span>kpulse-secrets
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># under stringData add:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#   SLACK_WEBHOOK_URL: https://hooks.slack.com/services/T0/B0/xxx</span>
-</code></pre></div>
-<p>Apply:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
-</code></pre></div>
-<h2 id="test">Test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span><span class="s1">&#39;http://localhost:8080/test-channel?name=slack&#39;</span>
-</code></pre></div>
-<h2 id="message-format">Message format<a class="headerlink" href="#message-format" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:rotating_light: *[prod-eks-1]* `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Container server in pod checkout/api-7d9f is in state OOMKilled
-</code></pre></div>
-<p>Severity emoji:</p>
+<p>That is the whole onboarding. Out of the box, twelve monitors are already enabled and tuned to be quiet on a healthy cluster: pod crashes, restart storms, PVC pressure, node disk and conditions, TLS certificate expiry, stuck rollouts, failed Jobs, missed CronJobs, HPAs pinned at max, DaemonSets that can not schedule, k8s Warning events. None of these need configuration for a small cluster.</p>
+<h2 id="why-event-driven-not-metrics">Why event-driven, not metrics<a class="headerlink" href="#why-event-driven-not-metrics" title="Permanent link">&para;</a></h2>
+<p>The reason kpulse is not a metrics tool is that storing metrics is a hard, well-solved problem. Prometheus already does it. The pretty default Grafana dashboards already exist. There is no value in re-implementing a worse Prometheus.</p>
+<p>What is missing in the early-cluster window is not metric storage. It is <em>signals you actually act on</em>. Kubernetes already produces those signals, for free, every second of every day. Pod state, Node conditions, certificate <code>NotAfter</code> fields, CronJob <code>lastScheduleTime</code>. They sit in <code>kubectl describe</code> waiting for a human to look at them. kpulse just watches and shouts when one of them looks bad.</p>
+<p>This means kpulse starts being useful the instant it is installed. There is no scrape config. There is no need to deploy exporters into your workloads. There is no PVC to provision for time-series storage. The whole image is around 14 MB. The Pod requests 25 millicores and 64 Mi of memory.</p>
+<h2 id="what-kpulse-is-not">What kpulse is NOT<a class="headerlink" href="#what-kpulse-is-not" title="Permanent link">&para;</a></h2>
+<p>It is worth being explicit:</p>
 <ul>
-<li><code>:information_source:</code> info</li>
-<li><code>:warning:</code> warning</li>
-<li><code>:rotating_light:</code> critical</li>
+<li>It does not store time series, so you can not graph throughput over time.</li>
+<li>It does not have a dashboard. There is nothing to log into.</li>
+<li>It does not have a silence UI, on-call rotations, or escalation policies. There is no acknowledgement model.</li>
+<li>It does not replace Alertmanager. If you have a real on-call rotation, you want Alertmanager.</li>
 </ul>
-<h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>kpulse<span class="w"> </span>oci://ghcr.io/dnl555/charts/kpulse<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--set<span class="w"> </span>channels.slack.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SLACK_WEBHOOK_URL<span class="o">=</span><span class="s2">&quot;https://hooks.slack.com/...&quot;</span>
-</code></pre></div>
+<p>The intended path is: install kpulse on day one. Live with it for months. When you get to the point where the engineering team is big enough that on-call has to be a thing, install Prometheus + Alertmanager <em>alongside</em> kpulse. Use Prometheus for SLO-grade alerts and graphs. Keep kpulse running for the daily noise it covers well: a CronJob that quietly stopped scheduling, a Secret that is about to expire, a Node that flipped to <code>NotReady</code> at 4am.</p>
+<h2 id="when-kpulse-is-the-wrong-answer">When kpulse is the wrong answer<a class="headerlink" href="#when-kpulse-is-the-wrong-answer" title="Permanent link">&para;</a></h2>
+<p>If you already have Prometheus and Alertmanager, kpulse is at best a duplicate of work you have already done. The pod-restart alert, the PVC-pressure alert, the cert-expiry alert &mdash; all of these have well-known PromQL idioms and Alertmanager routes.</p>
+<p>If you operate dozens of clusters and need centralised alerting, kpulse is a per-cluster process and does not aggregate. There is no plan to add that. The right answer there is to push everything into a central tool you already operate.</p>
+<p>If your alerting needs are "page me at 3am only if my checkout error rate is above 0.5% sustained for 10 minutes" &mdash; kpulse can not express that. It alerts on Kubernetes-level signals, not application metrics. That is what Prometheus is for.</p>
+<h2 id="where-it-goes-next">Where it goes next<a class="headerlink" href="#where-it-goes-next" title="Permanent link">&para;</a></h2>
+<p>The roadmap is intentionally narrow. The next pieces are: PagerDuty and Opsgenie bridges (built on top of the existing webhook contract), a small browser UI for inspecting recent alerts (read-only, no acknowledgements), and Helm chart polish. There is no plan to add metric scraping, dashboards, or anything that would push kpulse toward being a partial Prometheus.</p>
+<p>The goal is to stay small, stay useful from day one, and stay the kind of thing you can <code>tilt up</code> and read end-to-end in an afternoon.</p>
+<p><a href="../../getting-started/installation/">See it in action: installation &rarr;</a></p>
 
 
 
 
 
 
+
+  
+  
 
 
 

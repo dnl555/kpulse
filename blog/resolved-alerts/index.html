@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Event-driven Kubernetes monitoring for developers and startups on their first cluster.">
+        <meta name="description" content="An alerting tool that tells you when something broke but not when it cleared is half a feature.">
       
       
       
-        <link rel="canonical" href="https://dnl555.github.io/kpulse/channels/slack/">
+        <link rel="canonical" href="https://dnl555.github.io/kpulse/blog/resolved-alerts/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../default-monitors/">
       
       
-        <link rel="next" href="../email/">
+        <link rel="next" href="../dev-with-tilt/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Slack - kpulse</title>
+        <title>Resolved alerts: the missing half of alerting - kpulse</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#slack" class="md-skip">
+        <a href="#resolved-alerts-the-missing-half-of-alerting" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Slack
+              Resolved alerts: the missing half of alerting
             
           </span>
         </div>
@@ -469,8 +469,6 @@
       
   
   
-    
-  
   
   
     
@@ -499,15 +497,17 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../channels/" class="md-nav__link ">
               
   
   
@@ -531,7 +531,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -548,37 +548,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Slack
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../channels/slack/" class="md-nav__link">
         
   
   
@@ -594,81 +567,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#get-a-webhook-url" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get a webhook URL
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#message-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Message format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Helm
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -681,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../email/" class="md-nav__link">
+      <a href="../../channels/email/" class="md-nav__link">
         
   
   
@@ -709,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../webhook/" class="md-nav__link">
+      <a href="../../channels/webhook/" class="md-nav__link">
         
   
   
@@ -737,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../discord/" class="md-nav__link">
+      <a href="../../channels/discord/" class="md-nav__link">
         
   
   
@@ -765,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../teams/" class="md-nav__link">
+      <a href="../../channels/teams/" class="md-nav__link">
         
   
   
@@ -1186,6 +1084,8 @@
       
   
   
+    
+  
   
   
     
@@ -1212,17 +1112,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../blog/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1246,7 +1144,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1266,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/why-kpulse/" class="md-nav__link">
+      <a href="../why-kpulse/" class="md-nav__link">
         
   
   
@@ -1294,7 +1192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/default-monitors/" class="md-nav__link">
+      <a href="../default-monitors/" class="md-nav__link">
         
   
   
@@ -1319,10 +1217,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../blog/resolved-alerts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resolved alerts, the missing half
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1338,6 +1263,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-monitors-resolve-and-why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which monitors resolve, and why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-honest-limitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One honest limitation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-is-a-default-not-a-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this is a default, not a flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1350,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/dev-with-tilt/" class="md-nav__link">
+      <a href="../dev-with-tilt/" class="md-nav__link">
         
   
   
@@ -1405,10 +1405,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-a-webhook-url" class="md-nav__link">
+  <a href="#what-it-looks-like" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get a webhook URL
+        What it looks like
       
     </span>
   </a>
@@ -1416,10 +1416,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
+  <a href="#which-monitors-resolve-and-why" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configure
+        Which monitors resolve, and why
       
     </span>
   </a>
@@ -1427,10 +1427,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
+  <a href="#the-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Test
+        The implementation
       
     </span>
   </a>
@@ -1438,10 +1438,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#message-format" class="md-nav__link">
+  <a href="#one-honest-limitation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Message format
+        One honest limitation
       
     </span>
   </a>
@@ -1449,10 +1449,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
+  <a href="#why-this-is-a-default-not-a-flag" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helm
+        Why this is a default, not a flag
       
     </span>
   </a>
@@ -1476,7 +1476,7 @@
 
 
   
-    <a href="https://github.com/dnl555/kpulse/edit/main/docs/channels/slack.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/dnl555/kpulse/edit/main/docs/blog/resolved-alerts.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1484,55 +1484,77 @@
   
 
 
-<h1 id="slack">Slack<a class="headerlink" href="#slack" title="Permanent link">&para;</a></h1>
-<p>Standard Slack incoming webhook. The lowest-friction channel to set up.</p>
-<h2 id="get-a-webhook-url">Get a webhook URL<a class="headerlink" href="#get-a-webhook-url" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Go to <a href="https://api.slack.com/messaging/webhooks">api.slack.com/messaging/webhooks</a>.</li>
-<li>Create or pick a Slack app, enable Incoming Webhooks, add one for the target channel.</li>
-<li>Copy the URL: <code>https://hooks.slack.com/services/T0XXX/B0XXX/xxxxxx</code>.</li>
-</ol>
-<h2 id="configure">Configure<a class="headerlink" href="#configure" title="Permanent link">&para;</a></h2>
-<p>ConfigMap:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">channels</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">slack</span><span class="p">:</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">webhook_url_from_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SLACK_WEBHOOK_URL</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<h1 id="resolved-alerts-the-missing-half-of-alerting">Resolved alerts: the missing half of alerting<a class="headerlink" href="#resolved-alerts-the-missing-half-of-alerting" title="Permanent link">&para;</a></h1>
+<p>Until v0.2, kpulse only fired one way. Something broke, you got a message. Something fixed itself, you got nothing. Quietly broken alerts are the norm in the industry &mdash; pagers fire, on-call acks, the underlying problem self-recovers, the next pager fires from a different cause, and nobody ever knows that the first one is over.</p>
+<p>It is not just a UX problem. It is a coverage problem. A monitoring tool that tells you "a thing is on fire" and never tells you "the fire is out" puts the entire burden of state on you. Your mental cache fills up with possibly-still-burning fires. You stop trusting the silence.</p>
+<p>v0.2 fixed this. By default kpulse now sends a <code>[RESOLVED]</code> notification when a previously firing alert clears.</p>
+<h2 id="what-it-looks-like">What it looks like<a class="headerlink" href="#what-it-looks-like" title="Permanent link">&para;</a></h2>
+<p>In Slack, a fire alert is red:</p>
+<blockquote>
+<p>:rotating_light: <em>[prod-eks-1]</em> <code>checkout/pod/api-7d9f</code> OOMKilled on api-7d9f/server
+Container server in pod checkout/api-7d9f is in state OOMKilled</p>
+</blockquote>
+<p>The resolution, when the same Pod gets back to Running (or is replaced by a healthy one), is green:</p>
+<blockquote>
+<p>:white_check_mark: <em>[RESOLVED] [prod-eks-1]</em> <code>checkout/pod/api-7d9f</code> api-7d9f/server is back to Running
+Container server in pod checkout/api-7d9f is now Running.</p>
+</blockquote>
+<p>The dedupe key is the same on both sides &mdash; <code>(monitor, namespace, kind, name, reason)</code>. The resolution literally says "the thing I told you about is over."</p>
+<p>In email, the entire banner flips from red to green and the subject gets a <code>[RESOLVED]</code> prefix:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Subject: [prod-eks-1] [RESOLVED] PVC checkout/data-api-0 back below threshold
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>X-Kpulse-State: resolved
 </code></pre></div>
-<p>Secret:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>secret<span class="w"> </span>kpulse-secrets
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># under stringData add:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#   SLACK_WEBHOOK_URL: https://hooks.slack.com/services/T0/B0/xxx</span>
+<p>(The <code>X-Kpulse-State</code> header is filter-friendly: a Gmail filter on <code>"X-Kpulse-State: resolved"</code> is a clean way to route resolutions out of your inbox without losing the fire alerts.)</p>
+<h2 id="which-monitors-resolve-and-why">Which monitors resolve, and why<a class="headerlink" href="#which-monitors-resolve-and-why" title="Permanent link">&para;</a></h2>
+<p>Not every alert has a meaningful resolution. A <code>Warning</code> event is a point-in-time fact &mdash; it does not "stop being true" later. A failed Job does not unfail. A discrete restart storm is over the moment the window passes; there is no second event to bind to.</p>
+<p>So kpulse divides its monitors into two groups:</p>
+<p><strong>Resolvable (8 monitors):</strong> <code>pod_crashes</code>, <code>pvc_usage</code>, <code>node_disk</code>, <code>node_conditions</code>, <code>tls_cert_expiry</code>, <code>rollout_stuck</code>, <code>hpa_at_max</code>, <code>daemonset_unscheduled</code>, <code>cronjob_missed</code>. For each, "the condition no longer holds" is well-defined: the PVC dropped below 80%, the cert was renewed, the Pod transitioned to Running, the DaemonSet is fully scheduled. When kpulse detects the clearing, it emits <code>[RESOLVED]</code>.</p>
+<p><strong>Not resolvable (3 monitors):</strong> <code>warning_events</code> (events are point-in-time), <code>pod_restarts</code> (a restart burst is discrete), <code>job_failed</code> (Jobs do not unfail). These keep their v0.1 behavior &mdash; fire once, dedupe by window, never resolve.</p>
+<p>There is a config knob: <code>resolution.enabled: true</code> is the default; set it to false to return to v0.1 behavior. The knob exists for two real cases. First, teams that pipe kpulse into Alertmanager already have state tracking in Alertmanager and do not want duplicate resolutions. Second, audit-heavy environments that prefer strict fire-only semantics.</p>
+<h2 id="the-implementation">The implementation<a class="headerlink" href="#the-implementation" title="Permanent link">&para;</a></h2>
+<p>For periodic monitors (PVC, node disk, TLS), the implementation is the obvious one. The monitor builds a complete set of currently-firing alerts on every scan and hands it to the engine via <code>Reconcile(monitor, firing[])</code>. The engine compares against its in-memory active set, sends the diff as resolutions, and updates the active set.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">PVCUsage</span><span class="p">)</span><span class="w"> </span><span class="nx">scan</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">sub</span><span class="w"> </span><span class="nx">Submitter</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">firing</span><span class="w"> </span><span class="p">[]</span><span class="nx">alert</span><span class="p">.</span><span class="nx">Alert</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">ref</span><span class="p">,</span><span class="w"> </span><span class="nx">u</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">pvc</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="nx">pct</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">float64</span><span class="p">(</span><span class="nx">u</span><span class="p">.</span><span class="nx">used</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">float64</span><span class="p">(</span><span class="nx">u</span><span class="p">.</span><span class="nx">cap</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="nx">pct</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">CritAt</span><span class="p">:</span><span class="w"> </span><span class="nx">firing</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">firing</span><span class="p">,</span><span class="w"> </span><span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="nx">pct</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">cfg</span><span class="p">.</span><span class="nx">WarnAt</span><span class="p">:</span><span class="w"> </span><span class="nx">firing</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">firing</span><span class="p">,</span><span class="w"> </span><span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nx">sub</span><span class="p">.</span><span class="nx">Reconcile</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">Name</span><span class="p">(),</span><span class="w"> </span><span class="nx">firing</span><span class="p">)</span><span class="w">  </span><span class="c1">// engine handles dedupe + resolution diff</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
 </code></pre></div>
-<p>Apply:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
+<p>For event-based monitors (<code>pod_crashes</code>, <code>rollout_stuck</code>, <code>node_conditions</code>), the monitor tracks its own "was firing" state per object key. When an informer update arrives, the monitor checks the current state and explicitly calls <code>sub.Resolve(...)</code> when an object was firing and no longer is.</p>
+<p>The most interesting case is <code>pod_crashes</code> because Pods are mortal. A Pod might recover by becoming Running again (rare in CrashLoopBackOff cases) but more commonly the Deployment rolls and a fresh Pod replaces it. kpulse handles both: it resolves on Running transitions, and on Pod deletion it resolves any active alert keyed to that Pod's UID.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="w"> </span><span class="o">*</span><span class="nx">PodCrashes</span><span class="p">)</span><span class="w"> </span><span class="nx">handleDelete</span><span class="p">(</span><span class="nx">obj</span><span class="w"> </span><span class="kt">any</span><span class="p">,</span><span class="w"> </span><span class="nx">sub</span><span class="w"> </span><span class="nx">Submitter</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nx">pod</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">obj</span><span class="p">.(</span><span class="o">*</span><span class="nx">corev1</span><span class="p">.</span><span class="nx">Pod</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nx">prefix</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">pod</span><span class="p">.</span><span class="nx">UID</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;|&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">seen</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">hasPrefix</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">prefix</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">            </span><span class="nx">sub</span><span class="p">.</span><span class="nx">Resolve</span><span class="p">(</span><span class="nx">alert</span><span class="p">.</span><span class="nx">Alert</span><span class="p">{</span><span class="o">...</span><span class="p">})</span><span class="w">  </span><span class="c1">// pod is gone; alert is gone</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">            </span><span class="nb">delete</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">seen</span><span class="p">,</span><span class="w"> </span><span class="nx">k</span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="test">Test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span><span class="s1">&#39;http://localhost:8080/test-channel?name=slack&#39;</span>
-</code></pre></div>
-<h2 id="message-format">Message format<a class="headerlink" href="#message-format" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:rotating_light: *[prod-eks-1]* `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Container server in pod checkout/api-7d9f is in state OOMKilled
-</code></pre></div>
-<p>Severity emoji:</p>
-<ul>
-<li><code>:information_source:</code> info</li>
-<li><code>:warning:</code> warning</li>
-<li><code>:rotating_light:</code> critical</li>
-</ul>
-<h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>kpulse<span class="w"> </span>oci://ghcr.io/dnl555/charts/kpulse<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--set<span class="w"> </span>channels.slack.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SLACK_WEBHOOK_URL<span class="o">=</span><span class="s2">&quot;https://hooks.slack.com/...&quot;</span>
-</code></pre></div>
+<h2 id="one-honest-limitation">One honest limitation<a class="headerlink" href="#one-honest-limitation" title="Permanent link">&para;</a></h2>
+<p>The active-alert set is in-memory. If kpulse restarts, it forgets what was firing. It will not send <code>[RESOLVED]</code> messages for alerts that pre-date the restart. The next informer sync or periodic scan re-establishes state, and a new <code>firing</code> alert goes out if the condition still holds &mdash; so the world re-converges, just with a one-cycle gap.</p>
+<p>You could ask: why not persist the active set to the same ConfigMap that backs dedupe state? It is a reasonable thing to do, and we will probably add it in a later release. The reason it is not there today is that we wanted to ship a clean v0.2 and live with the behavior for a while before adding write-amplification to the snapshot loop.</p>
+<p>If your kpulse restarts often enough that this gap matters, that is a different bug.</p>
+<h2 id="why-this-is-a-default-not-a-flag">Why this is a default, not a flag<a class="headerlink" href="#why-this-is-a-default-not-a-flag" title="Permanent link">&para;</a></h2>
+<p>The historical pattern with alerting tools is to ship fire-only and let the operator opt into resolution. We picked the opposite: ship resolution-on, let the operator opt out.</p>
+<p>The reasoning is that operators who <em>want</em> resolutions are people running operations, not people writing the tool. Asking them to discover a config knob to get a basic feature is the wrong default. People who explicitly do not want resolutions (because they have Alertmanager downstream) have a single line to add to their ConfigMap. The friction lives in the right place.</p>
+<p><a href="../../getting-started/resolved-alerts/">Configuration reference &rarr;</a></p>
 
 
 
 
 
 
+
+  
+  
 
 
 

@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Event-driven Kubernetes monitoring for developers and startups on their first cluster.">
+        <meta name="description" content="A reasoned tour of every default kpulse ships with, with the rationale behind each threshold.">
       
       
       
-        <link rel="canonical" href="https://dnl555.github.io/kpulse/channels/slack/">
+        <link rel="canonical" href="https://dnl555.github.io/kpulse/blog/default-monitors/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../why-kpulse/">
       
       
-        <link rel="next" href="../email/">
+        <link rel="next" href="../resolved-alerts/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Slack - kpulse</title>
+        <title>The 12 default monitors, and why those thresholds - kpulse</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#slack" class="md-skip">
+        <a href="#the-12-default-monitors-and-why-those-thresholds" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Slack
+              The 12 default monitors, and why those thresholds
             
           </span>
         </div>
@@ -469,8 +469,6 @@
       
   
   
-    
-  
   
   
     
@@ -499,15 +497,17 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../channels/" class="md-nav__link ">
               
   
   
@@ -531,7 +531,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -548,37 +548,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Slack
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../channels/slack/" class="md-nav__link">
         
   
   
@@ -594,81 +567,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#get-a-webhook-url" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get a webhook URL
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#message-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Message format
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Helm
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -681,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../email/" class="md-nav__link">
+      <a href="../../channels/email/" class="md-nav__link">
         
   
   
@@ -709,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../webhook/" class="md-nav__link">
+      <a href="../../channels/webhook/" class="md-nav__link">
         
   
   
@@ -737,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../discord/" class="md-nav__link">
+      <a href="../../channels/discord/" class="md-nav__link">
         
   
   
@@ -765,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../teams/" class="md-nav__link">
+      <a href="../../channels/teams/" class="md-nav__link">
         
   
   
@@ -1186,6 +1084,8 @@
       
   
   
+    
+  
   
   
     
@@ -1212,17 +1112,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../blog/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1246,7 +1144,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1266,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/why-kpulse/" class="md-nav__link">
+      <a href="../why-kpulse/" class="md-nav__link">
         
   
   
@@ -1291,10 +1189,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../blog/default-monitors/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The 12 default monitors
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1310,6 +1235,180 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pod_crashes-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pod_crashes (critical)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pod_restarts-warning-5-in-15-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pod_restarts (warning, &gt; 5 in 15 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#warning_events-info-k8s-warning-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warning_events (info, k8s Warning events)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pvc_usage-warn-at-80-crit-at-90-every-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pvc_usage (warn at 80%, crit at 90%, every 10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node_conditions-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        node_conditions (critical)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node_disk-warn-85-crit-92-every-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        node_disk (warn 85%, crit 92%, every 10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls_cert_expiry-warn-14-days-crit-3-days-every-6-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls_cert_expiry (warn 14 days, crit 3 days, every 6 hours)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollout_stuck-warning-15-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rollout_stuck (warning, &gt; 15 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job_failed-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        job_failed (warning)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cronjob_missed-warning-2-missed-schedules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cronjob_missed (warning, &gt; 2 missed schedules)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hpa_at_max-warning-30-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hpa_at_max (warning, &gt; 30 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daemonset_unscheduled-warning-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        daemonset_unscheduled (warning, &gt; 10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-explicitly-do-not-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What we explicitly do not monitor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuning-the-noise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tuning the noise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1322,7 +1421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/resolved-alerts/" class="md-nav__link">
+      <a href="../resolved-alerts/" class="md-nav__link">
         
   
   
@@ -1350,7 +1449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/dev-with-tilt/" class="md-nav__link">
+      <a href="../dev-with-tilt/" class="md-nav__link">
         
   
   
@@ -1405,10 +1504,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-a-webhook-url" class="md-nav__link">
+  <a href="#pod_crashes-critical" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get a webhook URL
+        pod_crashes (critical)
       
     </span>
   </a>
@@ -1416,10 +1515,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure" class="md-nav__link">
+  <a href="#pod_restarts-warning-5-in-15-minutes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configure
+        pod_restarts (warning, &gt; 5 in 15 minutes)
       
     </span>
   </a>
@@ -1427,10 +1526,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
+  <a href="#warning_events-info-k8s-warning-events" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Test
+        warning_events (info, k8s Warning events)
       
     </span>
   </a>
@@ -1438,10 +1537,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#message-format" class="md-nav__link">
+  <a href="#pvc_usage-warn-at-80-crit-at-90-every-10-minutes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Message format
+        pvc_usage (warn at 80%, crit at 90%, every 10 minutes)
       
     </span>
   </a>
@@ -1449,10 +1548,109 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helm" class="md-nav__link">
+  <a href="#node_conditions-critical" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helm
+        node_conditions (critical)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node_disk-warn-85-crit-92-every-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        node_disk (warn 85%, crit 92%, every 10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls_cert_expiry-warn-14-days-crit-3-days-every-6-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls_cert_expiry (warn 14 days, crit 3 days, every 6 hours)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollout_stuck-warning-15-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rollout_stuck (warning, &gt; 15 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#job_failed-warning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        job_failed (warning)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cronjob_missed-warning-2-missed-schedules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cronjob_missed (warning, &gt; 2 missed schedules)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hpa_at_max-warning-30-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hpa_at_max (warning, &gt; 30 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#daemonset_unscheduled-warning-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        daemonset_unscheduled (warning, &gt; 10 minutes)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-explicitly-do-not-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What we explicitly do not monitor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tuning-the-noise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tuning the noise
       
     </span>
   </a>
@@ -1476,7 +1674,7 @@
 
 
   
-    <a href="https://github.com/dnl555/kpulse/edit/main/docs/channels/slack.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/dnl555/kpulse/edit/main/docs/blog/default-monitors.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1484,55 +1682,68 @@
   
 
 
-<h1 id="slack">Slack<a class="headerlink" href="#slack" title="Permanent link">&para;</a></h1>
-<p>Standard Slack incoming webhook. The lowest-friction channel to set up.</p>
-<h2 id="get-a-webhook-url">Get a webhook URL<a class="headerlink" href="#get-a-webhook-url" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Go to <a href="https://api.slack.com/messaging/webhooks">api.slack.com/messaging/webhooks</a>.</li>
-<li>Create or pick a Slack app, enable Incoming Webhooks, add one for the target channel.</li>
-<li>Copy the URL: <code>https://hooks.slack.com/services/T0XXX/B0XXX/xxxxxx</code>.</li>
-</ol>
-<h2 id="configure">Configure<a class="headerlink" href="#configure" title="Permanent link">&para;</a></h2>
-<p>ConfigMap:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">channels</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">slack</span><span class="p">:</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">webhook_url_from_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SLACK_WEBHOOK_URL</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
-<p>Secret:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>secret<span class="w"> </span>kpulse-secrets
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># under stringData add:</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#   SLACK_WEBHOOK_URL: https://hooks.slack.com/services/T0/B0/xxx</span>
-</code></pre></div>
-<p>Apply:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
-</code></pre></div>
-<h2 id="test">Test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span><span class="s1">&#39;http://localhost:8080/test-channel?name=slack&#39;</span>
-</code></pre></div>
-<h2 id="message-format">Message format<a class="headerlink" href="#message-format" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:rotating_light: *[prod-eks-1]* `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Container server in pod checkout/api-7d9f is in state OOMKilled
-</code></pre></div>
-<p>Severity emoji:</p>
+<h1 id="the-12-default-monitors-and-why-those-thresholds">The 12 default monitors, and why those thresholds<a class="headerlink" href="#the-12-default-monitors-and-why-those-thresholds" title="Permanent link">&para;</a></h1>
+<p>Every alerting tool ships with defaults, and most of the time nobody reads the documentation for them. They are either too loud (every healthy cluster lights up the chat) or too quiet (real problems pass silently). kpulse tries hard to ship defaults that are useful on day one without needing tuning.</p>
+<p>Here is what each of the 12 enabled-by-default monitors does, and the reasoning behind every threshold.</p>
+<h2 id="pod_crashes-critical">pod_crashes (critical)<a class="headerlink" href="#pod_crashes-critical" title="Permanent link">&para;</a></h2>
+<p>Fires when a container's waiting or terminated reason is in a specific list: <code>CrashLoopBackOff</code>, <code>OOMKilled</code>, <code>ImagePullBackOff</code>, <code>ErrImagePull</code>, <code>CreateContainerConfigError</code>, <code>FailedScheduling</code>, <code>FailedMount</code>, <code>Evicted</code>.</p>
+<p>These are not arbitrary. They are the eight reasons that, in practice, account for the overwhelming majority of "this Pod is broken, not just slow" cases. They are also the reasons where the <em>next</em> action is almost always a human looking at logs. <code>Pending</code> is not in the list because Pending is usually transient. <code>BackOff</code> is not in the list because it is owned by the same root cause as <code>CrashLoopBackOff</code> and <code>pod_crashes</code> would double-fire.</p>
+<h2 id="pod_restarts-warning-5-in-15-minutes">pod_restarts (warning, &gt; 5 in 15 minutes)<a class="headerlink" href="#pod_restarts-warning-5-in-15-minutes" title="Permanent link">&para;</a></h2>
+<p>Counts container restarts over a sliding window. The 5/15m threshold catches a Pod that is flapping fast enough to disrupt traffic but not fast enough to trip <code>CrashLoopBackOff</code>. A pod with three restarts an hour is probably fine. Five in fifteen minutes is not.</p>
+<p>This monitor sits between <code>pod_crashes</code> (which catches hard breakage) and <code>warning_events</code> (which catches everything else weird). It is the monitor that catches things like a liveness probe that occasionally fails under load.</p>
+<h2 id="warning_events-info-k8s-warning-events">warning_events (info, k8s Warning events)<a class="headerlink" href="#warning_events-info-k8s-warning-events" title="Permanent link">&para;</a></h2>
+<p>Forwards every Kubernetes <code>Warning</code>-type Event whose <code>reason</code> is not in an ignore list. This is the "everything else weird" channel.</p>
+<p>Default ignore list:</p>
 <ul>
-<li><code>:information_source:</code> info</li>
-<li><code>:warning:</code> warning</li>
-<li><code>:rotating_light:</code> critical</li>
+<li><code>FailedGracefulShutdown</code> and <code>Unhealthy</code> (probe flap noise)</li>
+<li><code>Failed</code>, <code>BackOff</code>, <code>BackoffLimitExceeded</code> (already covered by <code>pod_crashes</code> and <code>job_failed</code>; including them here would double-fire)</li>
+<li><code>InvalidDiskCapacity</code> (k3d / Docker Desktop quirk where the kubelet can not stat the host-backed image filesystem)</li>
 </ul>
-<h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>kpulse<span class="w"> </span>oci://ghcr.io/dnl555/charts/kpulse<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--set<span class="w"> </span>channels.slack.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SLACK_WEBHOOK_URL<span class="o">=</span><span class="s2">&quot;https://hooks.slack.com/...&quot;</span>
-</code></pre></div>
+<p>If you run kpulse on a real cloud cluster the InvalidDiskCapacity exclusion is harmless. If you run it on k3d locally, removing it would mean a constant info alert about your kubelet's confused view of disk capacity.</p>
+<h2 id="pvc_usage-warn-at-80-crit-at-90-every-10-minutes">pvc_usage (warn at 80%, crit at 90%, every 10 minutes)<a class="headerlink" href="#pvc_usage-warn-at-80-crit-at-90-every-10-minutes" title="Permanent link">&para;</a></h2>
+<p>Walks every Node's <code>/stats/summary</code> endpoint and computes used/capacity per PersistentVolumeClaim. The 80/90 thresholds are conservative. You probably do not want to wait until 95% to know something is filling up, because by then you might already be in a corner you can not get out of without resizing the volume.</p>
+<p>The 10-minute scan interval is a trade-off. Faster scans give you earlier alerts but produce more load on the kubelet proxy endpoint, which is not designed to be hit constantly. Ten minutes is enough lead time for any reasonable PVC growth rate.</p>
+<h2 id="node_conditions-critical">node_conditions (critical)<a class="headerlink" href="#node_conditions-critical" title="Permanent link">&para;</a></h2>
+<p>Fires when a Node condition you care about flips to True (or to False, in the case of Ready). Defaults: <code>DiskPressure</code>, <code>MemoryPressure</code>, <code>PIDPressure</code>, <code>NotReady</code>.</p>
+<p>These four are the conditions the kubelet itself decides are serious. There is no threshold to tune here &mdash; the kubelet has already made the decision. kpulse just forwards it. You will hear about this within seconds of it happening, because it is informer-based, not periodic.</p>
+<h2 id="node_disk-warn-85-crit-92-every-10-minutes">node_disk (warn 85%, crit 92%, every 10 minutes)<a class="headerlink" href="#node_disk-warn-85-crit-92-every-10-minutes" title="Permanent link">&para;</a></h2>
+<p>Same data source as <code>pvc_usage</code>, but for the Node's own filesystem and the container runtime's image filesystem. The thresholds are slightly higher than PVC because Node disk usage usually fluctuates more (image pulls, log rotation) and 80% on a node is often normal.</p>
+<p>92% as critical is chosen to fire before the kubelet itself decides to start evicting Pods, which it does around <code>nodefs.available&lt;10%</code> by default. You want the warning before the eviction.</p>
+<h2 id="tls_cert_expiry-warn-14-days-crit-3-days-every-6-hours">tls_cert_expiry (warn 14 days, crit 3 days, every 6 hours)<a class="headerlink" href="#tls_cert_expiry-warn-14-days-crit-3-days-every-6-hours" title="Permanent link">&para;</a></h2>
+<p>Lists every Secret of type <code>kubernetes.io/tls</code>, parses the leaf certificate, and computes days until <code>NotAfter</code>. The 14-day warning is two weeks &mdash; enough time to renew a cert-manager certificate before anything user-visible happens. The 3-day critical is the "if cert-manager is broken, you have to act today" tier.</p>
+<p>Six hours as the scan interval is a compromise. Faster scans add load and there is no value in finding out about cert expiry every minute &mdash; the situation does not change second-to-second.</p>
+<h2 id="rollout_stuck-warning-15-minutes">rollout_stuck (warning, &gt; 15 minutes)<a class="headerlink" href="#rollout_stuck-warning-15-minutes" title="Permanent link">&para;</a></h2>
+<p>Fires when a Deployment's <code>Progressing</code> condition has been not-True for 15 minutes, or when a StatefulSet's <code>readyReplicas &lt; replicas</code> for the same duration. Fifteen minutes is long enough to filter out normal rolling updates (which typically complete in 1-3 minutes) and short enough to catch a real problem before someone notices it manually.</p>
+<h2 id="job_failed-warning">job_failed (warning)<a class="headerlink" href="#job_failed-warning" title="Permanent link">&para;</a></h2>
+<p>Fires when a batch Job hits <code>Failed=True</code>. There is no threshold &mdash; if the Job's <code>backoffLimit</code> has been exceeded, you want to know. This includes Helm hook Jobs, migration Jobs, scheduled batch.</p>
+<h2 id="cronjob_missed-warning-2-missed-schedules">cronjob_missed (warning, &gt; 2 missed schedules)<a class="headerlink" href="#cronjob_missed-warning-2-missed-schedules" title="Permanent link">&para;</a></h2>
+<p>Scans every CronJob every minute, parses the schedule expression, and counts how many runs were skipped since the last successful schedule. Two missed runs is the threshold because one missed run is sometimes legitimate (controller restart, brief unavailability) and two is usually not.</p>
+<p>For a <code>*/5 * * * *</code> job, this means you find out about a stuck CronJob within about ten minutes. For an <code>@daily</code> job, you find out within about two days. The threshold is in <em>runs missed</em>, not wall-clock time, which is the right shape for this.</p>
+<h2 id="hpa_at_max-warning-30-minutes">hpa_at_max (warning, &gt; 30 minutes)<a class="headerlink" href="#hpa_at_max-warning-30-minutes" title="Permanent link">&para;</a></h2>
+<p>Tracks per-HPA: when <code>currentReplicas == maxReplicas</code> continuously for thirty minutes or more, fires. Thirty minutes filters out legitimate burst traffic that scales to max for a few minutes. Sustained max usage means you almost certainly need to raise <code>maxReplicas</code>, scale the underlying nodes, or have a bug.</p>
+<h2 id="daemonset_unscheduled-warning-10-minutes">daemonset_unscheduled (warning, &gt; 10 minutes)<a class="headerlink" href="#daemonset_unscheduled-warning-10-minutes" title="Permanent link">&para;</a></h2>
+<p>Per-DaemonSet: when <code>desiredNumberScheduled != numberReady</code> for ten minutes, fires. The ten-minute floor avoids false positives during rolling node upgrades, which routinely produce a brief mismatch. Persistent mismatch usually means a taint, a node selector mistake, or a pull failure.</p>
+<h2 id="what-we-explicitly-do-not-monitor">What we explicitly do not monitor<a class="headerlink" href="#what-we-explicitly-do-not-monitor" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Pending pods.</strong> Pending is usually transient. <code>FailedScheduling</code> (in <code>pod_crashes</code>) covers the real case.</li>
+<li><strong>Resource quotas.</strong> kpulse does not know what your quota policy is.</li>
+<li><strong>Application-level health.</strong> That is what your application's own monitoring should cover; kpulse is cluster-level only.</li>
+<li><strong>Cost.</strong> No mechanism for it, and the cloud bill is not a cluster signal.</li>
+</ul>
+<h2 id="tuning-the-noise">Tuning the noise<a class="headerlink" href="#tuning-the-noise" title="Permanent link">&para;</a></h2>
+<p>The single best lever for "kpulse is too loud" is <code>dedupe.window</code>, which defaults to 30 minutes. Same alert within that window is suppressed. If you find yourself getting the same five alerts every half hour, raise it to an hour or two.</p>
+<p>The second best lever is the per-monitor <code>enabled: false</code>. If you do not have HPAs, turn off <code>hpa_at_max</code>. If you do not use CronJobs, turn off <code>cronjob_missed</code>.</p>
+<p>Finally, <code>dedupe.digest</code> batches all <code>info</code> and <code>warning</code> alerts into a single message every ten minutes (critical bypasses the digest). If your chat channel feels noisy on a busy day, the digest is doing most of the protecting.</p>
+<p><a href="../../monitors/">Full monitor reference &rarr;</a></p>
 
 
 
 
 
 
+
+  
+  
 
 
 
