@@ -31,5 +31,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
           commit_message: 'docs: deploy ${{ github.sha }}'
-          # When you're ready to serve docs at docs.kpulse.io, uncomment:
-          # cname: docs.kpulse.io
+          cname: docs.kpulse.io
