@@ -1,0 +1,7 @@
+# Dev image used by Tilt. Alpine instead of distroless so Tilt's live_update
+# can sync the recompiled binary without restarting the whole container.
+FROM alpine:3.20
+RUN adduser -D -u 65532 nonroot
+COPY bin/kpulse /usr/local/bin/kpulse
+USER nonroot
+ENTRYPOINT ["/usr/local/bin/kpulse"]

@@ -64,7 +64,15 @@ monitors:
     window: 15m
   warning_events:
     enabled: true
-    reasons_ignore: [FailedGracefulShutdown, Unhealthy]
+    # Reasons already covered by a dedicated monitor (pod_crashes, job_failed)
+    # are ignored here to avoid dupe-alerting. Add more as you discover noise.
+    reasons_ignore:
+      - FailedGracefulShutdown
+      - Unhealthy
+      - Failed                # owned by pod_crashes
+      - BackOff               # owned by pod_crashes
+      - BackoffLimitExceeded  # owned by job_failed
+      - InvalidDiskCapacity   # k3d / Docker Desktop quirk
   pvc_usage:
     enabled: true
     warn_at: 80

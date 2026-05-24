@@ -13,6 +13,14 @@ fi
 echo "Installing kpulse (${VERSION}) from ${URL}"
 kubectl apply -f "$URL"
 
+# Bootstrap the channel-credentials Secret if it does not already exist.
+# Re-running the installer never overwrites a real Secret you've populated.
+if ! kubectl -n kpulse get secret kpulse-secrets >/dev/null 2>&1; then
+  kubectl -n kpulse create secret generic kpulse-secrets \
+    --from-literal=PLACEHOLDER='set real creds with: kubectl -n kpulse edit secret kpulse-secrets' \
+    >/dev/null
+fi
+
 cat <<'EOF'
 
 kpulse installed in namespace 'kpulse'.

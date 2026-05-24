@@ -54,9 +54,14 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels: {{- include "kpulse.labels" . | nindent 4 }}
 rules:
+  # K8s RBAC ignores resourceNames for 'create', so it has to live in its
+  # own rule scoped to the release namespace only.
   - apiGroups: [""]
     resources: [configmaps]
-    verbs: [get, create, update, patch]
+    verbs: [create]
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [get, update, patch]
     resourceNames: [{{ include "kpulse.fullname" . }}-state]
 ---
 apiVersion: rbac.authorization.k8s.io/v1

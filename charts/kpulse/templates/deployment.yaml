@@ -64,6 +64,9 @@ spec:
         - name: secrets
           secret:
             secretName: {{ include "kpulse.fullname" . }}-secrets
+            # optional so the Pod still starts when channels.secrets is empty;
+            # operators populate the Secret out-of-band with kubectl.
+            optional: true
       {{- with .Values.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
       {{- end }}

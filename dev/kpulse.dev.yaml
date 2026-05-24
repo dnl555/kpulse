@@ -1,0 +1,164 @@
+# Dev variant of the install manifest used by Tilt.
+# Differences from deploy/kpulse.yaml.tmpl:
+# - image is kpulse:dev (built locally, imagePullPolicy: Never)
+# - cluster.name is preset to 'dev'
+# - the generic webhook channel is wired to the in-cluster echo sink
+# - resource limits relaxed
+---
+apiVersion: v1
+kind: Namespace
+metadata: { name: kpulse }
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: kpulse, namespace: kpulse }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: { name: kpulse }
+rules:
+  - apiGroups: [""]
+    resources: [pods, events, nodes, persistentvolumeclaims, secrets, namespaces, configmaps]
+    verbs: [get, list, watch]
+  - apiGroups: [""]
+    resources: [nodes/proxy]
+    verbs: [get]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets, daemonsets]
+    verbs: [get, list, watch]
+  - apiGroups: [batch]
+    resources: [jobs, cronjobs]
+    verbs: [get, list, watch]
+  - apiGroups: [autoscaling]
+    resources: [horizontalpodautoscalers]
+    verbs: [get, list, watch]
+  - apiGroups: [events.k8s.io]
+    resources: [events]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata: { name: kpulse }
+roleRef: { apiGroup: rbac.authorization.k8s.io, kind: ClusterRole, name: kpulse }
+subjects: [{ kind: ServiceAccount, name: kpulse, namespace: kpulse }]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: { name: kpulse-state, namespace: kpulse }
+rules:
+  # K8s RBAC ignores resourceNames for 'create'; split into two rules.
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [create]
+  - apiGroups: [""]
+    resources: [configmaps]
+    verbs: [get, update, patch]
+    resourceNames: [kpulse-state]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: { name: kpulse-state, namespace: kpulse }
+roleRef: { apiGroup: rbac.authorization.k8s.io, kind: Role, name: kpulse-state }
+subjects: [{ kind: ServiceAccount, name: kpulse, namespace: kpulse }]
+---
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: kpulse-config, namespace: kpulse }
+data:
+  config.yaml: |
+    cluster:
+      name: dev
+    channels:
+      email:
+        smtp_host: smtp.gmail.com
+        smtp_port: 587
+        from: alerts@example.com
+        to: [dnl555@gmail.com]
+        user_from_secret: SMTP_USER
+        pass_from_secret: SMTP_PASS
+      webhook:
+        url: http://sink.demo.svc.cluster.local/kpulse
+        headers:
+          X-Source: kpulse-dev
+    namespaces:
+      include: ["*"]
+      exclude: [kube-system, kube-public, kpulse]
+    monitors:
+      pod_crashes:           { enabled: true, reasons: [CrashLoopBackOff, OOMKilled, ImagePullBackOff, ErrImagePull, CreateContainerConfigError, FailedScheduling, FailedMount, Evicted], include_recent_logs: true, max_log_lines: 50 }
+      pod_restarts:          { enabled: true, threshold: 3, window: 2m }
+      warning_events:        { enabled: true, reasons_ignore: [FailedGracefulShutdown, Unhealthy, Failed, BackOff, BackoffLimitExceeded, InvalidDiskCapacity] }
+      pvc_usage:             { enabled: true, warn_at: 80, crit_at: 90, interval: 30s }
+      node_conditions:       { enabled: true, alert_on: [DiskPressure, MemoryPressure, PIDPressure, NotReady] }
+      node_disk:             { enabled: true, warn_at: 85, crit_at: 92, interval: 30s }
+      tls_cert_expiry:       { enabled: true, warn_days: 14, crit_days: 3, interval: 1m }
+      rollout_stuck:         { enabled: true, threshold: 30s }
+      job_failed:            { enabled: true }
+      cronjob_missed:        { enabled: true, miss_threshold: 2 }
+      hpa_at_max:            { enabled: true, duration: 1m }
+      daemonset_unscheduled: { enabled: true, threshold: 30s }
+    dedupe:
+      window: 2m
+      digest:
+        enabled: false
+        interval: 30s
+        severities: [info, warning]
+    resolution:
+      enabled: true
+    routing: []
+# NOTE: Secret/kpulse-secrets is intentionally NOT defined here. The Tilt
+# pipeline (and ad-hoc Slack/SMTP test runs) populate it out-of-band with
+# kubectl so that re-applying this manifest does not wipe real credentials.
+# Bootstrap once with:
+#   kubectl -n kpulse create secret generic kpulse-secrets \
+#     --from-literal=SLACK_WEBHOOK_URL=... \
+#     --from-literal=SMTP_USER=... --from-literal=SMTP_PASS=...
+---
+apiVersion: v1
+kind: Service
+metadata: { name: kpulse, namespace: kpulse }
+spec:
+  selector: { app: kpulse }
+  ports: [{ name: http, port: 8080, targetPort: 8080 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kpulse
+  namespace: kpulse
+  labels: { app: kpulse }
+spec:
+  replicas: 1
+  strategy: { type: Recreate }
+  selector: { matchLabels: { app: kpulse } }
+  template:
+    metadata: { labels: { app: kpulse } }
+    spec:
+      serviceAccountName: kpulse
+      containers:
+        - name: kpulse
+          image: kpulse:dev
+          imagePullPolicy: Never
+          args: ["--config=/etc/kpulse/config.yaml", "--secrets=/etc/kpulse/secrets"]
+          env:
+            - name: POD_NAMESPACE
+              valueFrom: { fieldRef: { fieldPath: metadata.namespace } }
+          ports: [{ name: http, containerPort: 8080 }]
+          readinessProbe:
+            httpGet: { path: /readyz, port: 8080 }
+            initialDelaySeconds: 2
+            periodSeconds: 3
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8080 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 25m, memory: 64Mi }
+            limits:   { cpu: 500m, memory: 256Mi }
+          volumeMounts:
+            - { name: config, mountPath: /etc/kpulse }
+            - { name: secrets, mountPath: /etc/kpulse/secrets, readOnly: true }
+      volumes:
+        - name: config
+          configMap: { name: kpulse-config, items: [{ key: config.yaml, path: config.yaml }] }
+        - name: secrets
+          secret: { secretName: kpulse-secrets }
