@@ -1,6 +1,6 @@
 site_name: kpulse
 site_description: Event-driven Kubernetes monitoring for developers and startups on their first cluster.
-site_url: https://dnl555.github.io/kpulse/
+site_url: https://docs.kpulse.io/
 repo_url: https://github.com/dnl555/kpulse
 repo_name: dnl555/kpulse
 edit_uri: edit/main/docs/
