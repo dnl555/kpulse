@@ -108,6 +108,11 @@ See [docs/channels.md](docs/channels.md) for configuration and routing.
 
 If you need any of those, run Prometheus + Grafana + Alertmanager. kpulse covers the gap before you're ready for that stack, and keeps doing the noisy "did Kubernetes break again" work after.
 
+## Community
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) &mdash; how to file issues, propose features, send PRs, add monitors or channels.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) &mdash; expectations for community interaction.
+
 ## License
 
 MIT. See [LICENSE](LICENSE) and [NOTICE](NOTICE) (kwatch is acknowledged as inspiration; no kwatch code is included).
