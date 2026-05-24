@@ -20,6 +20,10 @@ If you're not sure where to start, open an issue and ask.
 - [Code of Conduct](https://github.com/dnl555/kpulse/blob/main/CODE_OF_CONDUCT.md)
 - [Full CONTRIBUTING.md](https://github.com/dnl555/kpulse/blob/main/CONTRIBUTING.md) on GitHub
 
+## Contact
+
+For anything that doesn't belong on a public GitHub issue: [contact@kpulse.io](mailto:contact@kpulse.io).
+
 ## License
 
 By contributing, you agree your contributions are licensed under the project's MIT License.

@@ -38,3 +38,7 @@ That's it. 12 monitors are enabled by default and start firing alerts to Slack.
 - Not an Alertmanager replacement (no silencing rules, no on-call rotations)
 
 If you need any of those, run Prometheus + Grafana + Alertmanager. kpulse covers the gap before you're ready for that stack and keeps doing the noisy "did Kubernetes break again" work after.
+
+## Contact
+
+Questions, bug reports off-GitHub, or anything else: [contact@kpulse.io](mailto:contact@kpulse.io).
