@@ -84,4 +84,9 @@ nav:
       - Overview: contributing/index.md
       - Cloning and Building: contributing/cloning-and-building.md
       - GitHub Workflow: contributing/github-workflow.md
-  - Blog: blog/index.md
+  - Blog:
+      - Overview: blog/index.md
+      - Why kpulse exists: blog/why-kpulse.md
+      - The 12 default monitors: blog/default-monitors.md
+      - Resolved alerts, the missing half: blog/resolved-alerts.md
+      - Local-only dev with Tilt: blog/dev-with-tilt.md
