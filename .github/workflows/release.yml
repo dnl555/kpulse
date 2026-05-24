@@ -37,9 +37,11 @@ jobs:
           set -e
           VERSION="${GITHUB_REF_NAME#v}"
           # Sync chart version + appVersion to the released git tag so users
-          # who install via Helm get the matching image.
+          # who install via Helm get the matching image. Chart version must
+          # be semver (no leading v); appVersion keeps the v so it matches
+          # the published Docker image tag (ghcr.io/.../kpulse:v0.X.Y).
           sed -i "s/^version: .*/version: ${VERSION}/" charts/kpulse/Chart.yaml
-          sed -i "s/^appVersion: .*/appVersion: \"${VERSION}\"/" charts/kpulse/Chart.yaml
+          sed -i "s/^appVersion: .*/appVersion: \"${GITHUB_REF_NAME}\"/" charts/kpulse/Chart.yaml
           helm package charts/kpulse
           echo "${GITHUB_TOKEN}" | helm registry login ghcr.io \
             -u ${{ github.actor }} --password-stdin
