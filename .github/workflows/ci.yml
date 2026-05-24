@@ -15,6 +15,13 @@ jobs:
       - uses: golangci/golangci-lint-action@v6
         with:
           version: v1.64
+      - name: Helm lint
+        run: |
+          curl -fsSL https://get.helm.sh/helm-v3.16.3-linux-amd64.tar.gz | tar xz
+          ./linux-amd64/helm lint charts/kpulse \
+            --set clusterName=ci \
+            --set channels.slack.enabled=true \
+            --set-string channels.secrets.SLACK_WEBHOOK_URL=https://example.com/x
   build-image:
     runs-on: ubuntu-latest
     needs: test

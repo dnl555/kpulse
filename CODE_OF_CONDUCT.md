@@ -22,7 +22,7 @@ This applies to all project spaces: the GitHub repository (issues, pull requests
 
 ## Reporting
 
-If you experience or witness a violation, contact the maintainer at **dnl555@gmail.com**. Reports are handled privately. The maintainer will reply within a reasonable time and decide on any action needed, which can include a warning, removal of a comment, or a ban from the project.
+If you experience or witness a violation, contact the maintainer at **contact@kpulse.io**. Reports are handled privately. The maintainer will reply within a reasonable time and decide on any action needed, which can include a warning, removal of a comment, or a ban from the project.
 
 ## Acknowledgement
 

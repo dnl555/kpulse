@@ -112,6 +112,7 @@ If you need any of those, run Prometheus + Grafana + Alertmanager. kpulse covers
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) &mdash; how to file issues, propose features, send PRs, add monitors or channels.
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) &mdash; expectations for community interaction.
+- Contact: [contact@kpulse.io](mailto:contact@kpulse.io)
 
 ## License
 

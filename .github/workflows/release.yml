@@ -30,9 +30,25 @@ jobs:
             VERSION=${{ github.ref_name }}
       - name: Render kpulse.yaml
         run: VERSION=${{ github.ref_name }} ./deploy/render.sh > kpulse.yaml
+      - name: Package and push Helm chart
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          VERSION="${GITHUB_REF_NAME#v}"
+          # Sync chart version + appVersion to the released git tag so users
+          # who install via Helm get the matching image.
+          sed -i "s/^version: .*/version: ${VERSION}/" charts/kpulse/Chart.yaml
+          sed -i "s/^appVersion: .*/appVersion: \"${VERSION}\"/" charts/kpulse/Chart.yaml
+          helm package charts/kpulse
+          echo "${GITHUB_TOKEN}" | helm registry login ghcr.io \
+            -u ${{ github.actor }} --password-stdin
+          helm push "kpulse-${VERSION}.tgz" \
+            "oci://ghcr.io/${{ github.repository_owner }}/charts"
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             kpulse.yaml
             deploy/install.sh
+            kpulse-*.tgz
