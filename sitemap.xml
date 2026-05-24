@@ -1,107 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://dnl555.github.io/kpulse/</loc>
+         <loc>https://docs.kpulse.io/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/architecture/</loc>
+         <loc>https://docs.kpulse.io/architecture/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/blog/</loc>
+         <loc>https://docs.kpulse.io/blog/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/blog/default-monitors/</loc>
+         <loc>https://docs.kpulse.io/blog/default-monitors/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/blog/dev-with-tilt/</loc>
+         <loc>https://docs.kpulse.io/blog/dev-with-tilt/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/blog/resolved-alerts/</loc>
+         <loc>https://docs.kpulse.io/blog/resolved-alerts/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/blog/why-kpulse/</loc>
+         <loc>https://docs.kpulse.io/blog/why-kpulse/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/channels/</loc>
+         <loc>https://docs.kpulse.io/channels/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/channels/discord/</loc>
+         <loc>https://docs.kpulse.io/channels/discord/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/channels/email/</loc>
+         <loc>https://docs.kpulse.io/channels/email/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/channels/slack/</loc>
+         <loc>https://docs.kpulse.io/channels/slack/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/channels/teams/</loc>
+         <loc>https://docs.kpulse.io/channels/teams/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/channels/webhook/</loc>
+         <loc>https://docs.kpulse.io/channels/webhook/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/contributing/</loc>
+         <loc>https://docs.kpulse.io/contributing/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/contributing/cloning-and-building/</loc>
+         <loc>https://docs.kpulse.io/contributing/cloning-and-building/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/contributing/github-workflow/</loc>
+         <loc>https://docs.kpulse.io/contributing/github-workflow/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/getting-started/app-configuration/</loc>
+         <loc>https://docs.kpulse.io/getting-started/app-configuration/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/getting-started/general-configuration/</loc>
+         <loc>https://docs.kpulse.io/getting-started/general-configuration/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/getting-started/installation/</loc>
+         <loc>https://docs.kpulse.io/getting-started/installation/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/getting-started/resolved-alerts/</loc>
+         <loc>https://docs.kpulse.io/getting-started/resolved-alerts/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/monitors/</loc>
+         <loc>https://docs.kpulse.io/monitors/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/monitors/node/</loc>
+         <loc>https://docs.kpulse.io/monitors/node/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/monitors/pods/</loc>
+         <loc>https://docs.kpulse.io/monitors/pods/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/monitors/pvc/</loc>
+         <loc>https://docs.kpulse.io/monitors/pvc/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/monitors/tls/</loc>
+         <loc>https://docs.kpulse.io/monitors/tls/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
     <url>
-         <loc>https://dnl555.github.io/kpulse/monitors/workload/</loc>
+         <loc>https://docs.kpulse.io/monitors/workload/</loc>
          <lastmod>2026-05-24</lastmod>
     </url>
 </urlset>
