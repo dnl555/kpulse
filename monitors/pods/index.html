@@ -1314,9 +1314,18 @@
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">reasons_ignore</span><span class="p">:</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FailedGracefulShutdown</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unhealthy</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Failed</span><span class="w">                </span><span class="c1"># owned by pod_crashes</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BackOff</span><span class="w">               </span><span class="c1"># owned by pod_crashes</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BackoffLimitExceeded</span><span class="w">  </span><span class="c1"># owned by job_failed</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InvalidDiskCapacity</span><span class="w">   </span><span class="c1"># k3d / Docker Desktop kubelet quirk</span>
 </code></pre></div>
-<p>The default ignore list filters out two reasons that fire constantly during normal probe flaps. If you see other recurring noise, add the reason here.</p>
-<p>Example reasons you might choose to ignore: <code>BackOff</code> (covered by <code>pod_crashes</code>), <code>FailedKillPod</code>, <code>Killing</code>.</p>
+<p>The defaults strip the most common noise:</p>
+<ul>
+<li><strong>Probe flaps:</strong> <code>FailedGracefulShutdown</code>, <code>Unhealthy</code> fire constantly during normal probe transitions.</li>
+<li><strong>Already covered:</strong> <code>Failed</code> and <code>BackOff</code> are emitted by the kubelet for the same crashes that <code>pod_crashes</code> already alerts on; <code>BackoffLimitExceeded</code> duplicates <code>job_failed</code>. Including them here avoids two alerts per real failure.</li>
+<li><strong>k3d quirk:</strong> <code>InvalidDiskCapacity</code> fires on k3d/Docker Desktop nodes because the kubelet can't stat the host-backed image filesystem. Not actionable.</li>
+</ul>
+<p>If you see other recurring noise, add the reason here.</p>
 
 
 

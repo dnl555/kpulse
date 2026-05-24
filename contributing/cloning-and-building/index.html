@@ -1182,6 +1182,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#live-reload-dev-loop-with-tilt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live-reload dev loop with Tilt
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1378,6 +1389,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#live-reload-dev-loop-with-tilt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live-reload dev loop with Tilt
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1468,6 +1490,29 @@
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>go<span class="w"> </span>install<span class="w"> </span>github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.0
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>golangci-lint<span class="w"> </span>run
+</code></pre></div>
+<h2 id="live-reload-dev-loop-with-tilt">Live-reload dev loop with Tilt<a class="headerlink" href="#live-reload-dev-loop-with-tilt" title="Permanent link">&para;</a></h2>
+<p>The repo ships a <code>Tiltfile</code> that compiles, deploys, and watches the source on a local k3d cluster. Loop time is ~10-15 s per change.</p>
+<p>Prereqs (one-time):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>brew<span class="w"> </span>install<span class="w"> </span>tilt-dev/tap/tilt<span class="w"> </span>k3d
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>k3d<span class="w"> </span>cluster<span class="w"> </span>create<span class="w"> </span>kpulse-test
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>k3d-kpulse-test
+</code></pre></div>
+<p>Run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>tilt<span class="w"> </span>up<span class="w">                   </span><span class="c1"># builds, deploys, watches; opens Tilt UI</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>tilt<span class="w"> </span>up<span class="w"> </span>--<span class="w"> </span>triggers<span class="w">       </span><span class="c1"># also deploy intentionally-broken workloads</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>tilt<span class="w"> </span>down<span class="w">                 </span><span class="c1"># tear it all back down</span>
+</code></pre></div>
+<p>What you get:</p>
+<ul>
+<li><strong>kpulse</strong> running with the in-cluster generic webhook channel wired to a tiny echo sink. Open <code>http://localhost:8080/test-channel?name=webhook</code> to send a synthetic alert; open <code>http://localhost:8081/</code> to inspect the sink's request log.</li>
+<li>A <code>demo</code> namespace with the <strong>sink</strong> Deployment.</li>
+<li>Optional <code>triggers</code> namespace with deliberately broken Pods (CrashLoopBackOff, ImagePullBackOff, OOMKilled, failing Job) to validate the alert path.</li>
+</ul>
+<p>To test a real channel (Slack, email, etc.), patch the Secret out of band; <code>kubectl apply</code> of the dev manifest never touches the Secret:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>kpulse-secrets<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;stringData&quot;:{&quot;SLACK_WEBHOOK_URL&quot;:&quot;https://hooks.slack.com/services/...&quot;}}&#39;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
 </code></pre></div>
 
 
