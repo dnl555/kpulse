@@ -1,0 +1,86 @@
+site_name: kpulse
+site_description: Event-driven Kubernetes monitoring for developers and startups on their first cluster.
+site_url: https://dnl555.github.io/kpulse/
+repo_url: https://github.com/dnl555/kpulse
+repo_name: dnl555/kpulse
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dnl555/kpulse
+  homepage: https://kpulse.io
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.snippets
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - General Configuration: getting-started/general-configuration.md
+      - App Configuration: getting-started/app-configuration.md
+  - Channels:
+      - Overview: channels/index.md
+      - Slack: channels/slack.md
+      - Email: channels/email.md
+      - Generic Webhook: channels/webhook.md
+      - Discord: channels/discord.md
+      - Microsoft Teams: channels/teams.md
+  - Monitors:
+      - Overview: monitors/index.md
+      - Pod Crashes & Events: monitors/pods.md
+      - PVC Monitoring: monitors/pvc.md
+      - Node Monitoring: monitors/node.md
+      - TLS Certificate Expiry: monitors/tls.md
+      - Workload Health: monitors/workload.md
+  - Architecture: architecture.md
+  - Contributing:
+      - Overview: contributing/index.md
+      - Cloning and Building: contributing/cloning-and-building.md
+      - GitHub Workflow: contributing/github-workflow.md
+  - Blog: blog/index.md

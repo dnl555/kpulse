@@ -1,0 +1,35 @@
+name: docs
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install MkDocs Material
+        run: pip install --quiet mkdocs-material
+      - name: Build site
+        run: mkdocs build --strict
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          commit_message: 'docs: deploy ${{ github.sha }}'
+          # When you're ready to serve docs at docs.kpulse.io, uncomment:
+          # cname: docs.kpulse.io
