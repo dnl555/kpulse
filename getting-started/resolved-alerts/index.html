@@ -6,33 +6,35 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Monitor and detect failures in your Kubernetes cluster instantly.">
+        <meta name="description" content="Event-driven Kubernetes monitoring for developers and startups on their first cluster.">
       
       
       
-        <link rel="canonical" href="https://dnl555.github.io/kpulse/">
+        <link rel="canonical" href="https://dnl555.github.io/kpulse/getting-started/resolved-alerts/">
       
       
+        <link rel="prev" href="../app-configuration/">
       
-        <link rel="next" href="getting-started/installation/">
+      
+        <link rel="next" href="../../channels/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>kpulse - kpulse</title>
+        <title>Resolved Alerts - kpulse</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,7 +53,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#monitor-and-detect-failures-in-your-kubernetes-cluster-instantly" class="md-skip">
+        <a href="#resolved-alerts" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              kpulse
+              Resolved Alerts
             
           </span>
         </div>
@@ -257,37 +259,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -303,59 +278,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#30-second-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        30-second install
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-kpulse" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why kpulse
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-kpulse-is-not" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What kpulse is NOT
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -364,8 +286,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -386,13 +310,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -413,7 +335,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -431,7 +353,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         
   
   
@@ -459,7 +381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/general-configuration/" class="md-nav__link">
+      <a href="../general-configuration/" class="md-nav__link">
         
   
   
@@ -487,7 +409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/app-configuration/" class="md-nav__link">
+      <a href="../app-configuration/" class="md-nav__link">
         
   
   
@@ -512,10 +434,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="getting-started/resolved-alerts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resolved Alerts
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -531,6 +480,92 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#toggle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Toggle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-monitors-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which monitors resolve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-monitors-do-not-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which monitors do NOT resolve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-a-resolved-alert-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a resolved alert looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#behavior-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behavior notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-turn-it-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to turn it off
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -585,7 +620,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="channels/" class="md-nav__link ">
+            <a href="../../channels/" class="md-nav__link ">
               
   
   
@@ -629,7 +664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="channels/slack/" class="md-nav__link">
+      <a href="../../channels/slack/" class="md-nav__link">
         
   
   
@@ -657,7 +692,7 @@
   
   
     <li class="md-nav__item">
-      <a href="channels/email/" class="md-nav__link">
+      <a href="../../channels/email/" class="md-nav__link">
         
   
   
@@ -685,7 +720,7 @@
   
   
     <li class="md-nav__item">
-      <a href="channels/webhook/" class="md-nav__link">
+      <a href="../../channels/webhook/" class="md-nav__link">
         
   
   
@@ -713,7 +748,7 @@
   
   
     <li class="md-nav__item">
-      <a href="channels/discord/" class="md-nav__link">
+      <a href="../../channels/discord/" class="md-nav__link">
         
   
   
@@ -741,7 +776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="channels/teams/" class="md-nav__link">
+      <a href="../../channels/teams/" class="md-nav__link">
         
   
   
@@ -811,7 +846,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="monitors/" class="md-nav__link ">
+            <a href="../../monitors/" class="md-nav__link ">
               
   
   
@@ -855,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="monitors/pods/" class="md-nav__link">
+      <a href="../../monitors/pods/" class="md-nav__link">
         
   
   
@@ -883,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="monitors/pvc/" class="md-nav__link">
+      <a href="../../monitors/pvc/" class="md-nav__link">
         
   
   
@@ -911,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="monitors/node/" class="md-nav__link">
+      <a href="../../monitors/node/" class="md-nav__link">
         
   
   
@@ -939,7 +974,7 @@
   
   
     <li class="md-nav__item">
-      <a href="monitors/tls/" class="md-nav__link">
+      <a href="../../monitors/tls/" class="md-nav__link">
         
   
   
@@ -967,7 +1002,7 @@
   
   
     <li class="md-nav__item">
-      <a href="monitors/workload/" class="md-nav__link">
+      <a href="../../monitors/workload/" class="md-nav__link">
         
   
   
@@ -1002,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -1058,7 +1093,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="contributing/" class="md-nav__link ">
+            <a href="../../contributing/" class="md-nav__link ">
               
   
   
@@ -1102,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/cloning-and-building/" class="md-nav__link">
+      <a href="../../contributing/cloning-and-building/" class="md-nav__link">
         
   
   
@@ -1130,7 +1165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/github-workflow/" class="md-nav__link">
+      <a href="../../contributing/github-workflow/" class="md-nav__link">
         
   
   
@@ -1165,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="blog/" class="md-nav__link">
+      <a href="../../blog/" class="md-nav__link">
         
   
   
@@ -1212,10 +1247,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#30-second-install" class="md-nav__link">
+  <a href="#toggle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        30-second install
+        Toggle
       
     </span>
   </a>
@@ -1223,10 +1258,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-kpulse" class="md-nav__link">
+  <a href="#which-monitors-resolve" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why kpulse
+        Which monitors resolve
       
     </span>
   </a>
@@ -1234,10 +1269,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-kpulse-is-not" class="md-nav__link">
+  <a href="#which-monitors-do-not-resolve" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What kpulse is NOT
+        Which monitors do NOT resolve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-a-resolved-alert-looks-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a resolved alert looks like
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#behavior-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behavior notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-turn-it-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to turn it off
       
     </span>
   </a>
@@ -1261,7 +1329,7 @@
 
 
   
-    <a href="https://github.com/dnl555/kpulse/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/dnl555/kpulse/edit/main/docs/getting-started/resolved-alerts.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1269,42 +1337,115 @@
   
 
 
-<h1 id="monitor-and-detect-failures-in-your-kubernetes-cluster-instantly">Monitor and detect failures in your Kubernetes cluster instantly<a class="headerlink" href="#monitor-and-detect-failures-in-your-kubernetes-cluster-instantly" title="Permanent link">&para;</a></h1>
-<p><strong>kpulse</strong> is event-driven Kubernetes monitoring for developers and startups on their first cluster. One Pod, one ConfigMap, ~64 Mi of memory. Slack / email / webhook out of the box.</p>
-<p>It is <strong>not</strong> a Prometheus replacement and does not store metrics. It watches the cluster, catches the failure modes that wake teams up at night (pod crashes, PVC full, certs expiring, rollouts stuck), and pings the channel of your choice. Outgrow it later by adding Prometheus alongside, not instead.</p>
-<h2 id="30-second-install">30-second install<a class="headerlink" href="#30-second-install" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://kpulse.io/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>secret<span class="w"> </span>kpulse-secrets<span class="w">    </span><span class="c1"># add SLACK_WEBHOOK_URL</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>edit<span class="w"> </span>configmap<span class="w"> </span>kpulse-config<span class="w">  </span><span class="c1"># set cluster.name, uncomment slack</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
+<h1 id="resolved-alerts">Resolved Alerts<a class="headerlink" href="#resolved-alerts" title="Permanent link">&para;</a></h1>
+<p>By default, kpulse sends a second notification when a previously firing alert clears. The message is prefixed <code>[RESOLVED]</code>, uses a green color, and reuses the same dedupe key as the original alert.</p>
+<p>This applies to <strong>state-based monitors</strong> &mdash; the ones where "the condition no longer holds" is meaningful. Discrete one-shot monitors (warning events, pod restarts, job failed) do not resolve and are unaffected.</p>
+<h2 id="toggle">Toggle<a class="headerlink" href="#toggle" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">resolution</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># default</span>
 </code></pre></div>
-<p>That's it. 12 monitors are enabled by default and start firing alerts to Slack.</p>
-<p><a class="md-button md-button--primary" href="getting-started/installation/">Get started :material-arrow-right:</a>
-<a class="md-button" href="monitors/">Browse monitors :material-arrow-right:</a></p>
-<h2 id="why-kpulse">Why kpulse<a class="headerlink" href="#why-kpulse" title="Permanent link">&para;</a></h2>
+<p>Set to <code>false</code> to keep the v0.1 behavior (fire only, never resolve).</p>
+<h2 id="which-monitors-resolve">Which monitors resolve<a class="headerlink" href="#which-monitors-resolve" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Monitor</th>
+<th>Resolves on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pod_crashes</code></td>
+<td>Container transitions to Running, or Pod deleted</td>
+</tr>
+<tr>
+<td><code>pvc_usage</code></td>
+<td>Usage drops back below <code>warn_at</code></td>
+</tr>
+<tr>
+<td><code>node_disk</code></td>
+<td>Usage drops back below <code>warn_at</code></td>
+</tr>
+<tr>
+<td><code>node_conditions</code></td>
+<td>Condition no longer reported True (or Ready=True for NotReady)</td>
+</tr>
+<tr>
+<td><code>tls_cert_expiry</code></td>
+<td>Cert renewed (NotAfter pushed past warn window)</td>
+</tr>
+<tr>
+<td><code>rollout_stuck</code></td>
+<td>Deployment <code>Progressing=True</code>, or StatefulSet ready==replicas</td>
+</tr>
+<tr>
+<td><code>hpa_at_max</code></td>
+<td>HPA scales below maxReplicas</td>
+</tr>
+<tr>
+<td><code>daemonset_unscheduled</code></td>
+<td>All desired pods ready</td>
+</tr>
+<tr>
+<td><code>cronjob_missed</code></td>
+<td>Next scheduled run lands</td>
+</tr>
+</tbody>
+</table>
+<h2 id="which-monitors-do-not-resolve">Which monitors do NOT resolve<a class="headerlink" href="#which-monitors-do-not-resolve" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Day-1 ready.</strong> Install, paste one Slack webhook, you have alerts on the 12 most common failure modes.</li>
-<li><strong>No time-series stack required.</strong> No Prometheus, no Grafana, no Alertmanager, no PVCs.</li>
-<li><strong>Sane defaults.</strong> All 12 monitors enabled, thresholds tuned to be quiet on a healthy cluster.</li>
-<li><strong>Tiny.</strong> Single Go binary, distroless image, ~64 Mi memory request.</li>
-<li><strong>MIT licensed.</strong> Use it, fork it, ship it.</li>
+<li><code>warning_events</code> &mdash; events are point-in-time; "stopped firing" isn't a concept</li>
+<li><code>pod_restarts</code> &mdash; a restart burst is a discrete event</li>
+<li><code>job_failed</code> &mdash; Jobs don't unfail (a re-run would be a new Job)</li>
 </ul>
-<h2 id="what-kpulse-is-not">What kpulse is NOT<a class="headerlink" href="#what-kpulse-is-not" title="Permanent link">&para;</a></h2>
+<h2 id="what-a-resolved-alert-looks-like">What a resolved alert looks like<a class="headerlink" href="#what-a-resolved-alert-looks-like" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Resolved format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slack</td>
+<td><code>:white_check_mark: *[RESOLVED]* [cluster] ...</code></td>
+</tr>
+<tr>
+<td>Email</td>
+<td>green top bar, <code>[RESOLVED]</code> in subject, <code>X-Kpulse-State: resolved</code> header</td>
+</tr>
+<tr>
+<td>Webhook</td>
+<td><code>"state": "resolved"</code> in JSON body</td>
+</tr>
+<tr>
+<td>Discord</td>
+<td><code>[OK] **[RESOLVED]** [cluster] ...</code></td>
+</tr>
+<tr>
+<td>Teams</td>
+<td>green theme color, <code>[RESOLVED]</code> in title</td>
+</tr>
+</tbody>
+</table>
+<h2 id="behavior-notes">Behavior notes<a class="headerlink" href="#behavior-notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Not a metrics store (no time series, no PromQL)</li>
-<li>Not a dashboard (no UI in v1)</li>
-<li>Not an Alertmanager replacement (no silencing rules, no on-call rotations)</li>
+<li>Resolved alerts <strong>bypass the dedupe window</strong> (always send) and <strong>bypass the digest</strong> (always immediate).</li>
+<li>The dedupe key matches the original alert: <code>(monitor, namespace, kind, name, reason)</code>. If the original alert never fired (or was suppressed by dedupe before reaching the engine), no resolved message is sent.</li>
+<li>The active-alert set is in-memory. If kpulse restarts, it won't know about alerts that were firing before the restart, so it won't send resolved messages for them. (The next scan from a periodic monitor will re-establish state and send a fresh <code>firing</code> alert if the condition still holds.)</li>
 </ul>
-<p>If you need any of those, run Prometheus + Grafana + Alertmanager. kpulse covers the gap before you're ready for that stack and keeps doing the noisy "did Kubernetes break again" work after.</p>
+<h2 id="when-to-turn-it-off">When to turn it off<a class="headerlink" href="#when-to-turn-it-off" title="Permanent link">&para;</a></h2>
+<ul>
+<li>You forward everything into Alertmanager / PagerDuty and <em>those</em> tools already track alert state.</li>
+<li>You want strict "fire and forget" semantics for compliance.</li>
+</ul>
 
 
 
 
 
 
-
-  
-  
 
 
 
@@ -1370,10 +1511,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
