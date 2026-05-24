@@ -48,9 +48,24 @@ type Attachment struct {
 	Body        []byte
 }
 
+type State int
+
+const (
+	StateFiring State = iota
+	StateResolved
+)
+
+func (s State) String() string {
+	if s == StateResolved {
+		return "resolved"
+	}
+	return "firing"
+}
+
 type Alert struct {
 	Monitor     string
 	Severity    Severity
+	State       State
 	Cluster     string
 	Namespace   string
 	ObjectKind  string

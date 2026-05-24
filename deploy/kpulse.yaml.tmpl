@@ -131,6 +131,13 @@ data:
         interval: 10m
         severities: [info, warning]
 
+    resolution:
+      # When true (default), kpulse sends a [RESOLVED] notification once a
+      # previously firing alert clears. Affects state-based monitors only
+      # (PVC, node disk, node conditions, TLS expiry, rollouts, HPA at max,
+      # DaemonSet unscheduled, CronJob missed, Pod crashes recovering).
+      enabled: true
+
     routing: []
 ---
 apiVersion: v1

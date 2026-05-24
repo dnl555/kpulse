@@ -3,6 +3,7 @@ package monitors
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/dnl555/kpulse/internal/alert"
@@ -15,13 +16,31 @@ import (
 )
 
 type RolloutStuck struct {
-	cs  kubernetes.Interface
-	cfg *config.Config
-	now func() time.Time
+	cs   kubernetes.Interface
+	cfg  *config.Config
+	now  func() time.Time
+	mu   sync.Mutex
+	seen map[string]struct{} // key = kind|namespace|name
 }
 
 func NewRolloutStuck(cs kubernetes.Interface, cfg *config.Config) *RolloutStuck {
-	return &RolloutStuck{cs: cs, cfg: cfg, now: time.Now}
+	return &RolloutStuck{cs: cs, cfg: cfg, now: time.Now, seen: map[string]struct{}{}}
+}
+
+func (m *RolloutStuck) markFiring(k string) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.seen[k] = struct{}{}
+}
+
+func (m *RolloutStuck) clearFiring(k string) bool {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	_, ok := m.seen[k]
+	if ok {
+		delete(m.seen, k)
+	}
+	return ok
 }
 
 func (m *RolloutStuck) Name() string { return "rollout_stuck" }
@@ -43,6 +62,9 @@ func (m *RolloutStuck) Run(ctx context.Context, sub Submitter) error {
 		if !m.cfg.Namespaces.Allows(d.Namespace) {
 			return
 		}
+		key := "Deployment|" + d.Namespace + "|" + d.Name
+		stuck := false
+		var stuckCond appsv1.DeploymentCondition
 		for _, c := range d.Status.Conditions {
 			if c.Type != appsv1.DeploymentProgressing {
 				continue
@@ -53,12 +75,25 @@ func (m *RolloutStuck) Run(ctx context.Context, sub Submitter) error {
 			if m.now().Sub(c.LastUpdateTime.Time) < threshold {
 				continue
 			}
+			stuck = true
+			stuckCond = c
+			break
+		}
+		if stuck {
 			sub.Submit(alert.Alert{
 				Monitor: m.Name(), Severity: alert.Warning,
 				Namespace: d.Namespace, ObjectKind: "Deployment", ObjectName: d.Name,
 				Reason: "RolloutStuck",
 				Title:  fmt.Sprintf("Deployment %s/%s rollout stuck", d.Namespace, d.Name),
-				Body:   fmt.Sprintf("Progressing condition %s reason=%s message=%s", c.Status, c.Reason, c.Message),
+				Body:   fmt.Sprintf("Progressing condition %s reason=%s message=%s", stuckCond.Status, stuckCond.Reason, stuckCond.Message),
+			})
+			m.markFiring(key)
+		} else if m.clearFiring(key) {
+			sub.Resolve(alert.Alert{
+				Monitor: m.Name(), Namespace: d.Namespace, ObjectKind: "Deployment", ObjectName: d.Name,
+				Reason: "RolloutStuck",
+				Title:  fmt.Sprintf("Deployment %s/%s rollout completed", d.Namespace, d.Name),
+				Body:   "The rollout has progressed past the stuck condition.",
 			})
 		}
 	}
@@ -70,13 +105,23 @@ func (m *RolloutStuck) Run(ctx context.Context, sub Submitter) error {
 		if !m.cfg.Namespaces.Allows(s.Namespace) {
 			return
 		}
-		if s.Status.ReadyReplicas < s.Status.Replicas && m.now().Sub(s.CreationTimestamp.Time) > threshold {
+		key := "StatefulSet|" + s.Namespace + "|" + s.Name
+		stuck := s.Status.ReadyReplicas < s.Status.Replicas && m.now().Sub(s.CreationTimestamp.Time) > threshold
+		if stuck {
 			sub.Submit(alert.Alert{
 				Monitor: m.Name(), Severity: alert.Warning,
 				Namespace: s.Namespace, ObjectKind: "StatefulSet", ObjectName: s.Name,
 				Reason: "RolloutStuck",
 				Title:  fmt.Sprintf("StatefulSet %s/%s rollout stuck", s.Namespace, s.Name),
 				Body:   fmt.Sprintf("Ready %d of %d for > %s", s.Status.ReadyReplicas, s.Status.Replicas, threshold),
+			})
+			m.markFiring(key)
+		} else if m.clearFiring(key) {
+			sub.Resolve(alert.Alert{
+				Monitor: m.Name(), Namespace: s.Namespace, ObjectKind: "StatefulSet", ObjectName: s.Name,
+				Reason: "RolloutStuck",
+				Title:  fmt.Sprintf("StatefulSet %s/%s rollout completed", s.Namespace, s.Name),
+				Body:   fmt.Sprintf("Ready %d of %d.", s.Status.ReadyReplicas, s.Status.Replicas),
 			})
 		}
 	}

@@ -14,7 +14,12 @@ type Config struct {
 	Namespaces NamespaceFilter `yaml:"namespaces"`
 	Monitors   Monitors        `yaml:"monitors"`
 	Dedupe     Dedupe          `yaml:"dedupe"`
+	Resolution Resolution      `yaml:"resolution"`
 	Routing    []RoutingRule   `yaml:"routing"`
+}
+
+type Resolution struct {
+	Enabled bool `yaml:"enabled"`
 }
 
 type Cluster struct {
@@ -198,7 +203,8 @@ func defaults() *Config {
 			HPAAtMax:             HPAAtMaxMon{Enabled: true, Duration: 30 * time.Minute},
 			DaemonSetUnscheduled: DaemonSetUnschedMon{Enabled: true, Threshold: 10 * time.Minute},
 		},
-		Dedupe: Dedupe{Window: 30 * time.Minute, Digest: Digest{Enabled: true, Interval: 10 * time.Minute, Severities: []string{"info", "warning"}}},
+		Dedupe:     Dedupe{Window: 30 * time.Minute, Digest: Digest{Enabled: true, Interval: 10 * time.Minute, Severities: []string{"info", "warning"}}},
+		Resolution: Resolution{Enabled: true},
 	}
 }
 

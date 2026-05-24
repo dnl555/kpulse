@@ -26,8 +26,14 @@ func NewSlack(url string, client *http.Client) *Slack {
 func (s *Slack) Name() string { return "slack" }
 
 func (s *Slack) Send(ctx context.Context, a alert.Alert) error {
-	emoji := map[alert.Severity]string{alert.Info: ":information_source:", alert.Warning: ":warning:", alert.Critical: ":rotating_light:"}[a.Severity]
-	text := fmt.Sprintf("%s *[%s]* `%s/%s` %s\n%s", emoji, a.Cluster, a.Namespace, a.Object(), a.Title, a.Body)
+	var emoji, prefix string
+	if a.State == alert.StateResolved {
+		emoji = ":white_check_mark:"
+		prefix = "*[RESOLVED]* "
+	} else {
+		emoji = map[alert.Severity]string{alert.Info: ":information_source:", alert.Warning: ":warning:", alert.Critical: ":rotating_light:"}[a.Severity]
+	}
+	text := fmt.Sprintf("%s %s*[%s]* `%s/%s` %s\n%s", emoji, prefix, a.Cluster, a.Namespace, a.Object(), a.Title, a.Body)
 	body, err := json.Marshal(map[string]any{"text": text})
 	if err != nil {
 		return err

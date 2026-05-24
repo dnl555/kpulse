@@ -56,7 +56,15 @@ func (m *HPAAtMax) Run(ctx context.Context, sub Submitter) error {
 				})
 			}
 		} else {
-			delete(m.since, key)
+			if _, wasTracked := m.since[key]; wasTracked {
+				delete(m.since, key)
+				sub.Resolve(alert.Alert{
+					Monitor: m.Name(), Namespace: h.Namespace, ObjectKind: "HorizontalPodAutoscaler", ObjectName: h.Name,
+					Reason: "AtMaxReplicas",
+					Title:  fmt.Sprintf("HPA %s/%s scaled down (no longer at max)", h.Namespace, h.Name),
+					Body:   fmt.Sprintf("currentReplicas=%d of maxReplicas=%d.", h.Status.CurrentReplicas, h.Spec.MaxReplicas),
+				})
+			}
 		}
 	}
 	_, _ = inf.AddEventHandler(cache.ResourceEventHandlerFuncs{

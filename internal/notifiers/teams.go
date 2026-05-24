@@ -27,12 +27,17 @@ func (t *Teams) Name() string { return "teams" }
 
 func (t *Teams) Send(ctx context.Context, a alert.Alert) error {
 	color := map[alert.Severity]string{alert.Info: "0078D7", alert.Warning: "FFA500", alert.Critical: "D13438"}[a.Severity]
+	title := fmt.Sprintf("[%s] %s", a.Cluster, a.Title)
+	if a.State == alert.StateResolved {
+		color = "10B981"
+		title = fmt.Sprintf("[%s] [RESOLVED] %s", a.Cluster, a.Title)
+	}
 	payload := map[string]any{
 		"@type":      "MessageCard",
 		"@context":   "https://schema.org/extensions",
 		"themeColor": color,
 		"summary":    a.Title,
-		"title":      fmt.Sprintf("[%s] %s", a.Cluster, a.Title),
+		"title":      title,
 		"sections": []map[string]any{
 			{"text": a.Body, "facts": []map[string]string{
 				{"name": "Namespace", "value": a.Namespace},

@@ -28,8 +28,14 @@ func NewDiscord(url string, client *http.Client) *Discord {
 func (d *Discord) Name() string { return "discord" }
 
 func (d *Discord) Send(ctx context.Context, a alert.Alert) error {
-	emoji := map[alert.Severity]string{alert.Info: "i", alert.Warning: "!", alert.Critical: "!!"}[a.Severity]
-	content := fmt.Sprintf("[%s] **[%s]** `%s/%s` %s\n%s", emoji, a.Cluster, a.Namespace, a.Object(), a.Title, a.Body)
+	var emoji, prefix string
+	if a.State == alert.StateResolved {
+		emoji = "OK"
+		prefix = "**[RESOLVED]** "
+	} else {
+		emoji = map[alert.Severity]string{alert.Info: "i", alert.Warning: "!", alert.Critical: "!!"}[a.Severity]
+	}
+	content := fmt.Sprintf("[%s] %s**[%s]** `%s/%s` %s\n%s", emoji, prefix, a.Cluster, a.Namespace, a.Object(), a.Title, a.Body)
 	if len(content) > discordLimit {
 		content = content[:discordLimit] + " (truncated)"
 	}

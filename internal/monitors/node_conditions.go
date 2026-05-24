@@ -3,6 +3,7 @@ package monitors
 import (
 	"context"
 	"fmt"
+	"sync"
 
 	"github.com/dnl555/kpulse/internal/alert"
 	"github.com/dnl555/kpulse/internal/config"
@@ -13,12 +14,23 @@ import (
 )
 
 type NodeConditions struct {
-	cs  kubernetes.Interface
-	cfg *config.Config
+	cs   kubernetes.Interface
+	cfg  *config.Config
+	mu   sync.Mutex
+	seen map[string]struct{} // key = node + "|" + conditionName
 }
 
 func NewNodeConditions(cs kubernetes.Interface, cfg *config.Config) *NodeConditions {
-	return &NodeConditions{cs: cs, cfg: cfg}
+	return &NodeConditions{cs: cs, cfg: cfg, seen: map[string]struct{}{}}
+}
+
+func splitNodeCondKey(s string) [2]string {
+	for i := 0; i < len(s); i++ {
+		if s[i] == '|' {
+			return [2]string{s[:i], s[i+1:]}
+		}
+	}
+	return [2]string{s, ""}
 }
 
 func (m *NodeConditions) Name() string { return "node_conditions" }
@@ -35,6 +47,8 @@ func (m *NodeConditions) Run(ctx context.Context, sub Submitter) error {
 		if !ok {
 			return
 		}
+		// Build the set of currently-firing condition names for this node.
+		current := map[string]corev1.NodeCondition{}
 		for _, cond := range n.Status.Conditions {
 			name := string(cond.Type)
 			fire := false
@@ -49,15 +63,45 @@ func (m *NodeConditions) Run(ctx context.Context, sub Submitter) error {
 					fire = true
 				}
 			}
-			if !fire {
-				continue
+			if fire {
+				current[name] = cond
 			}
+		}
+		// Fire each currently-firing.
+		for name, cond := range current {
 			sub.Submit(alert.Alert{
 				Monitor: m.Name(), Severity: alert.Critical,
 				ObjectKind: "Node", ObjectName: n.Name,
 				Reason: name,
 				Title:  fmt.Sprintf("Node %s: %s", n.Name, name),
 				Body:   fmt.Sprintf("Node condition %s reason=%s message=%s", name, cond.Reason, cond.Message),
+			})
+			m.mu.Lock()
+			m.seen[n.Name+"|"+name] = struct{}{}
+			m.mu.Unlock()
+		}
+		// Resolve any previously-firing condition for this node that is no longer present.
+		m.mu.Lock()
+		var toResolve []string
+		for key := range m.seen {
+			parts := splitNodeCondKey(key)
+			if parts[0] != n.Name {
+				continue
+			}
+			if _, still := current[parts[1]]; !still {
+				toResolve = append(toResolve, key)
+			}
+		}
+		for _, key := range toResolve {
+			delete(m.seen, key)
+		}
+		m.mu.Unlock()
+		for _, key := range toResolve {
+			parts := splitNodeCondKey(key)
+			sub.Resolve(alert.Alert{
+				Monitor: m.Name(), ObjectKind: "Node", ObjectName: parts[0], Reason: parts[1],
+				Title: fmt.Sprintf("Node %s: %s cleared", parts[0], parts[1]),
+				Body:  "The condition is no longer reported by the kubelet.",
 			})
 		}
 	}

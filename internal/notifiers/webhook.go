@@ -30,6 +30,7 @@ func (w *Webhook) Send(ctx context.Context, a alert.Alert) error {
 	payload := map[string]any{
 		"monitor":   a.Monitor,
 		"severity":  a.Severity.String(),
+		"state":     a.State.String(),
 		"cluster":   a.Cluster,
 		"namespace": a.Namespace,
 		"object":    a.Object(),

@@ -50,5 +50,8 @@ data:
     dedupe:
 {{ toYaml .Values.dedupe | indent 6 }}
 
+    resolution:
+{{ toYaml .Values.resolution | indent 6 }}
+
     routing:
 {{ toYaml .Values.routing | indent 6 }}

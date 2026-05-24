@@ -64,6 +64,7 @@ nav:
       - Installation: getting-started/installation.md
       - General Configuration: getting-started/general-configuration.md
       - App Configuration: getting-started/app-configuration.md
+      - Resolved Alerts: getting-started/resolved-alerts.md
   - Channels:
       - Overview: channels/index.md
       - Slack: channels/slack.md

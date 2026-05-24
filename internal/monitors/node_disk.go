@@ -42,19 +42,25 @@ func (n *NodeDisk) scan(ctx context.Context, sub Submitter) {
 	if err != nil {
 		return
 	}
+	var firing []alert.Alert
 	for _, node := range nodes.Items {
 		s, err := n.fetcher.Fetch(ctx, node.Name)
 		if err != nil {
 			continue
 		}
-		n.checkFS(node.Name, "rootfs", s.Node.Fs, sub)
-		n.checkFS(node.Name, "imagefs", s.Node.Runtime.ImageFs, sub)
+		if a, ok := n.buildAlert(node.Name, "rootfs", s.Node.Fs); ok {
+			firing = append(firing, a)
+		}
+		if a, ok := n.buildAlert(node.Name, "imagefs", s.Node.Runtime.ImageFs); ok {
+			firing = append(firing, a)
+		}
 	}
+	sub.Reconcile(n.Name(), firing)
 }
 
-func (n *NodeDisk) checkFS(nodeName, fsKind string, fs nodeFs, sub Submitter) {
+func (n *NodeDisk) buildAlert(nodeName, fsKind string, fs nodeFs) (alert.Alert, bool) {
 	if fs.CapacityBytes <= 0 {
-		return
+		return alert.Alert{}, false
 	}
 	pct := float64(fs.UsedBytes) / float64(fs.CapacityBytes) * 100
 	var sev alert.Severity
@@ -64,13 +70,13 @@ func (n *NodeDisk) checkFS(nodeName, fsKind string, fs nodeFs, sub Submitter) {
 	case pct >= n.cfg.Monitors.NodeDisk.WarnAt:
 		sev = alert.Warning
 	default:
-		return
+		return alert.Alert{}, false
 	}
-	sub.Submit(alert.Alert{
+	return alert.Alert{
 		Monitor: n.Name(), Severity: sev,
 		ObjectKind: "Node", ObjectName: nodeName,
-		Reason: "DiskHighUsage",
+		Reason: "DiskHighUsage:" + fsKind,
 		Title:  fmt.Sprintf("Node %s %s at %.1f%%", nodeName, fsKind, pct),
 		Body:   fmt.Sprintf("%s used %d / %d bytes (%.1f%%). Threshold warn=%.0f crit=%.0f.", fsKind, fs.UsedBytes, fs.CapacityBytes, pct, n.cfg.Monitors.NodeDisk.WarnAt, n.cfg.Monitors.NodeDisk.CritAt),
-	})
+	}, true
 }

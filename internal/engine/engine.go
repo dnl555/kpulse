@@ -12,24 +12,46 @@ import (
 )
 
 type Options struct {
-	Dedupe           *Deduper
-	Router           *Router
-	Registry         *notifiers.Registry
-	Cluster          string
-	DigestEnabled    bool
-	DigestInterval   time.Duration
-	DigestSeverities []alert.Severity
+	Dedupe            *Deduper
+	Router            *Router
+	Registry          *notifiers.Registry
+	Cluster           string
+	DigestEnabled     bool
+	DigestInterval    time.Duration
+	DigestSeverities  []alert.Severity
+	ResolutionEnabled bool
+}
+
+type inputKind int
+
+const (
+	inputFire inputKind = iota
+	inputResolve
+	inputReconcile
+)
+
+type input struct {
+	kind    inputKind
+	alert   alert.Alert
+	monitor string
+	firing  []alert.Alert
 }
 
 type Engine struct {
 	opts    Options
-	in      chan alert.Alert
+	in      chan input
 	digestQ []alert.Alert
-	mu      sync.Mutex
+
+	mu     sync.Mutex
+	active map[string]alert.Alert // key -> last-known firing alert
 }
 
 func New(o Options) *Engine {
-	return &Engine{opts: o, in: make(chan alert.Alert, 256)}
+	return &Engine{
+		opts:   o,
+		in:     make(chan input, 256),
+		active: map[string]alert.Alert{},
+	}
 }
 
 func (e *Engine) Submit(a alert.Alert) {
@@ -37,9 +59,56 @@ func (e *Engine) Submit(a alert.Alert) {
 	if a.Cluster == "" {
 		a.Cluster = e.opts.Cluster
 	}
+	a.State = alert.StateFiring
 	select {
-	case e.in <- a:
+	case e.in <- input{kind: inputFire, alert: a}:
 	default:
+	}
+}
+
+func (e *Engine) Resolve(a alert.Alert) {
+	a.EnsureFiredAt()
+	if a.Cluster == "" {
+		a.Cluster = e.opts.Cluster
+	}
+	a.State = alert.StateResolved
+	select {
+	case e.in <- input{kind: inputResolve, alert: a}:
+	default:
+	}
+}
+
+func (e *Engine) Reconcile(monitor string, firing []alert.Alert) {
+	cp := make([]alert.Alert, len(firing))
+	for i, a := range firing {
+		a.EnsureFiredAt()
+		if a.Cluster == "" {
+			a.Cluster = e.opts.Cluster
+		}
+		a.State = alert.StateFiring
+		cp[i] = a
+	}
+	select {
+	case e.in <- input{kind: inputReconcile, monitor: monitor, firing: cp}:
+	default:
+	}
+}
+
+func (e *Engine) ActiveSnapshot() map[string]alert.Alert {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	out := make(map[string]alert.Alert, len(e.active))
+	for k, v := range e.active {
+		out[k] = v
+	}
+	return out
+}
+
+func (e *Engine) RestoreActive(m map[string]alert.Alert) {
+	e.mu.Lock()
+	defer e.mu.Unlock()
+	for k, v := range m {
+		e.active[k] = v
 	}
 }
 
@@ -54,17 +123,35 @@ func (e *Engine) Run(ctx context.Context) {
 		select {
 		case <-ctx.Done():
 			return
-		case a := <-e.in:
-			e.handle(ctx, a)
+		case in := <-e.in:
+			switch in.kind {
+			case inputFire:
+				e.handleFire(ctx, in.alert)
+			case inputResolve:
+				e.handleResolve(ctx, in.alert)
+			case inputReconcile:
+				e.handleReconcile(ctx, in.monitor, in.firing)
+			}
 		case <-tickC:
 			e.flushDigest(ctx)
 		}
 	}
 }
 
-func (e *Engine) handle(ctx context.Context, a alert.Alert) {
+func (e *Engine) handleFire(ctx context.Context, a alert.Alert) {
 	if !e.opts.Dedupe.Allow(a) {
+		// even if suppressed, remember it is active so a future Resolve fires
+		if e.opts.ResolutionEnabled {
+			e.mu.Lock()
+			e.active[a.Key()] = a
+			e.mu.Unlock()
+		}
 		return
+	}
+	if e.opts.ResolutionEnabled {
+		e.mu.Lock()
+		e.active[a.Key()] = a
+		e.mu.Unlock()
 	}
 	if e.opts.DigestEnabled && containsSev(e.opts.DigestSeverities, a.Severity) {
 		e.mu.Lock()
@@ -74,6 +161,72 @@ func (e *Engine) handle(ctx context.Context, a alert.Alert) {
 	}
 	channels := e.opts.Router.Channels(a)
 	_ = e.opts.Registry.Send(ctx, a, channels)
+}
+
+func (e *Engine) handleResolve(ctx context.Context, a alert.Alert) {
+	if !e.opts.ResolutionEnabled {
+		return
+	}
+	e.mu.Lock()
+	prev, ok := e.active[a.Key()]
+	if ok {
+		delete(e.active, a.Key())
+	}
+	e.mu.Unlock()
+	if !ok {
+		// nothing was firing; don't send a spurious resolved
+		return
+	}
+	resolved := mergeResolved(prev, a)
+	channels := e.opts.Router.Channels(resolved)
+	_ = e.opts.Registry.Send(ctx, resolved, channels)
+}
+
+func (e *Engine) handleReconcile(ctx context.Context, monitor string, firing []alert.Alert) {
+	firingKeys := make(map[string]struct{}, len(firing))
+	for _, a := range firing {
+		firingKeys[a.Key()] = struct{}{}
+		e.handleFire(ctx, a)
+	}
+	if !e.opts.ResolutionEnabled {
+		return
+	}
+	e.mu.Lock()
+	var toResolve []alert.Alert
+	for k, prev := range e.active {
+		if prev.Monitor != monitor {
+			continue
+		}
+		if _, ok := firingKeys[k]; ok {
+			continue
+		}
+		toResolve = append(toResolve, prev)
+		delete(e.active, k)
+	}
+	e.mu.Unlock()
+	for _, prev := range toResolve {
+		resolved := mergeResolved(prev, alert.Alert{})
+		channels := e.opts.Router.Channels(resolved)
+		_ = e.opts.Registry.Send(ctx, resolved, channels)
+	}
+}
+
+func mergeResolved(prev, hint alert.Alert) alert.Alert {
+	out := prev
+	out.State = alert.StateResolved
+	out.Severity = alert.Info
+	out.FiredAt = time.Now().UTC()
+	if hint.Title != "" {
+		out.Title = hint.Title
+	} else {
+		out.Title = "Resolved: " + prev.Title
+	}
+	if hint.Body != "" {
+		out.Body = hint.Body
+	} else {
+		out.Body = "kpulse no longer detects the condition that triggered this alert."
+	}
+	return out
 }
 
 func (e *Engine) flushDigest(ctx context.Context) {

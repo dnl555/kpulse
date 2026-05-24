@@ -48,6 +48,7 @@ func (m *CronJobMissed) scan(ctx context.Context, sub Submitter) {
 	if miss <= 0 {
 		miss = 2
 	}
+	var firing []alert.Alert
 	for _, cj := range list.Items {
 		if !m.cfg.Namespaces.Allows(cj.Namespace) {
 			continue
@@ -74,7 +75,7 @@ func (m *CronJobMissed) scan(ctx context.Context, sub Submitter) {
 			}
 		}
 		if missed >= miss {
-			sub.Submit(alert.Alert{
+			firing = append(firing, alert.Alert{
 				Monitor: m.Name(), Severity: alert.Warning,
 				Namespace: cj.Namespace, ObjectKind: "CronJob", ObjectName: cj.Name,
 				Reason: "MissedSchedules",
@@ -83,4 +84,5 @@ func (m *CronJobMissed) scan(ctx context.Context, sub Submitter) {
 			})
 		}
 	}
+	sub.Reconcile(m.Name(), firing)
 }

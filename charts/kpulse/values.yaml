@@ -105,6 +105,11 @@ dedupe:
     interval: 10m
     severities: [info, warning]
 
+# Resolved-alert notifications. When true (default), kpulse sends a
+# [RESOLVED] message once a previously firing alert clears.
+resolution:
+  enabled: true
+
 # Optional routing rules. First match wins. Empty = every alert -> default channel.
 # Example:
 #   routing:

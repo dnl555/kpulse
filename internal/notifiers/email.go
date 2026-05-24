@@ -63,7 +63,14 @@ func (e *Email) compose(a alert.Alert) ([]byte, error) {
 	a.EnsureFiredAt()
 	now := e.now()
 
-	subj := truncateSubject(fmt.Sprintf("[%s] %s %s", a.Cluster, severityIcon(a.Severity), a.Title))
+	icon := severityIcon(a.Severity)
+	if a.State == alert.StateResolved {
+		icon = "[OK]"
+	}
+	subj := truncateSubject(fmt.Sprintf("[%s] %s %s", a.Cluster, icon, a.Title))
+	if a.State == alert.StateResolved {
+		subj = truncateSubject(fmt.Sprintf("[%s] [RESOLVED] %s", a.Cluster, a.Title))
+	}
 	msgID := fmt.Sprintf("<%s-%d@kpulse.local>", a.Key(), now.UnixNano())
 	listID := fmt.Sprintf("kpulse-%s <kpulse.%s.local>", safeToken(a.Cluster), safeToken(a.Cluster))
 
@@ -85,6 +92,7 @@ func (e *Email) compose(a alert.Alert) ([]byte, error) {
 	writeHeader("X-Kpulse-Cluster", a.Cluster)
 	writeHeader("X-Kpulse-Monitor", a.Monitor)
 	writeHeader("X-Kpulse-Severity", a.Severity.String())
+	writeHeader("X-Kpulse-State", a.State.String())
 	writeHeader("MIME-Version", "1.0")
 
 	if hasAttachments {
@@ -185,6 +193,12 @@ func plainBody(a alert.Alert) string {
 func htmlBody(a alert.Alert) string {
 	color := severityColor(a.Severity)
 	icon := severityIcon(a.Severity)
+	bannerLabel := strings.ToUpper(a.Severity.String())
+	if a.State == alert.StateResolved {
+		color = "#10b981"
+		icon = "[OK]"
+		bannerLabel = "RESOLVED"
+	}
 	esc := html.EscapeString
 
 	row := func(k, v string) string {
@@ -211,7 +225,7 @@ func htmlBody(a alert.Alert) string {
   <div style="padding:12px 20px;border-top:1px solid #e5e7eb;color:#6b7280;font:12px/1.4 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;">Sent by <a href="https://kpulse.io" style="color:#6b7280;text-decoration:underline;">kpulse</a> &middot; reply to your operations channel, not this address.</div>
 </div>
 </body></html>`,
-		color, icon, esc(strings.ToUpper(a.Severity.String())), esc(a.Cluster),
+		color, icon, esc(bannerLabel), esc(a.Cluster),
 		esc(a.Title),
 		row("Monitor", a.Monitor),
 		row("Namespace", a.Namespace),

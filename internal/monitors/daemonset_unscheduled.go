@@ -56,7 +56,15 @@ func (m *DaemonSetUnscheduled) Run(ctx context.Context, sub Submitter) error {
 				})
 			}
 		} else {
-			delete(m.since, key)
+			if _, wasTracked := m.since[key]; wasTracked {
+				delete(m.since, key)
+				sub.Resolve(alert.Alert{
+					Monitor: m.Name(), Namespace: d.Namespace, ObjectKind: "DaemonSet", ObjectName: d.Name,
+					Reason: "Unscheduled",
+					Title:  fmt.Sprintf("DaemonSet %s/%s fully scheduled (%d/%d ready)", d.Namespace, d.Name, d.Status.NumberReady, d.Status.DesiredNumberScheduled),
+					Body:   "All desired pods are now ready.",
+				})
+			}
 		}
 	}
 	_, _ = inf.AddEventHandler(cache.ResourceEventHandlerFuncs{

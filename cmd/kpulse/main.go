@@ -82,6 +82,7 @@ func main() {
 	eng := engine.New(engine.Options{
 		Dedupe: deduper, Router: router, Registry: reg, Cluster: cfg.Cluster.Name,
 		DigestEnabled: cfg.Dedupe.Digest.Enabled, DigestInterval: cfg.Dedupe.Digest.Interval, DigestSeverities: digestSevs,
+		ResolutionEnabled: cfg.Resolution.Enabled,
 	})
 
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)

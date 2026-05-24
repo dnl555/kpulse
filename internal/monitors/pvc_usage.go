@@ -111,6 +111,7 @@ func (p *PVCUsage) scan(ctx context.Context, sub Submitter) {
 			}
 		}
 	}
+	var firing []alert.Alert
 	for ref, u := range pvc {
 		if !p.cfg.Namespaces.Allows(ref.Namespace) {
 			continue
@@ -125,7 +126,7 @@ func (p *PVCUsage) scan(ctx context.Context, sub Submitter) {
 		default:
 			continue
 		}
-		sub.Submit(alert.Alert{
+		firing = append(firing, alert.Alert{
 			Monitor: p.Name(), Severity: sev,
 			Namespace: ref.Namespace, ObjectKind: "PersistentVolumeClaim", ObjectName: ref.Name,
 			Reason: "PVCHighUsage",
@@ -133,4 +134,5 @@ func (p *PVCUsage) scan(ctx context.Context, sub Submitter) {
 			Body:   fmt.Sprintf("Used %d / %d bytes (%.1f%%). Threshold warn=%.0f crit=%.0f.", u.used, u.cap, pct, p.cfg.Monitors.PVCUsage.WarnAt, p.cfg.Monitors.PVCUsage.CritAt),
 		})
 	}
+	sub.Reconcile(p.Name(), firing)
 }

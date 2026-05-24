@@ -47,6 +47,7 @@ func (t *TLSCertExpiry) scan(ctx context.Context, sub Submitter) {
 	if err != nil {
 		return
 	}
+	var firing []alert.Alert
 	for _, s := range secrets.Items {
 		if !t.cfg.Namespaces.Allows(s.Namespace) {
 			continue
@@ -73,7 +74,7 @@ func (t *TLSCertExpiry) scan(ctx context.Context, sub Submitter) {
 		default:
 			continue
 		}
-		sub.Submit(alert.Alert{
+		firing = append(firing, alert.Alert{
 			Monitor: t.Name(), Severity: sev,
 			Namespace: s.Namespace, ObjectKind: "Secret", ObjectName: s.Name,
 			Reason: "CertExpiringSoon",
@@ -81,4 +82,5 @@ func (t *TLSCertExpiry) scan(ctx context.Context, sub Submitter) {
 			Body:   fmt.Sprintf("CN=%s NotAfter=%s", cert.Subject.CommonName, cert.NotAfter.Format(time.RFC3339)),
 		})
 	}
+	sub.Reconcile(t.Name(), firing)
 }

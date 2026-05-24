@@ -12,12 +12,31 @@ import (
 	"k8s.io/client-go/kubernetes/fake"
 )
 
-type chanSub struct{ ch chan alert.Alert }
+type chanSub struct {
+	ch       chan alert.Alert
+	resolved chan alert.Alert
+}
 
 func (c *chanSub) Submit(a alert.Alert) {
 	select {
 	case c.ch <- a:
 	default:
+	}
+}
+
+func (c *chanSub) Resolve(a alert.Alert) {
+	if c.resolved == nil {
+		return
+	}
+	select {
+	case c.resolved <- a:
+	default:
+	}
+}
+
+func (c *chanSub) Reconcile(_ string, firing []alert.Alert) {
+	for _, a := range firing {
+		c.Submit(a)
 	}
 }
 
