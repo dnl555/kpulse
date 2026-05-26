@@ -1651,12 +1651,24 @@
 <td><code>/test-channel?name=...</code></td>
 <td>See above</td>
 </tr>
+<tr>
+<td><code>POST /reset-dedupe</code></td>
+<td>Clear in-memory active set, dedupe history, and the persisted state ConfigMap</td>
+</tr>
 </tbody>
 </table>
 <h2 id="inspecting-state">Inspecting state<a class="headerlink" href="#inspecting-state" title="Permanent link">&para;</a></h2>
-<p>The dedupe map lives in <code>ConfigMap/kpulse-state</code> (key <code>dedupe.json</code>). To force kpulse to "forget" everything and re-fire all current alerts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>delete<span class="w"> </span>configmap<span class="w"> </span>kpulse-state
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deploy/kpulse
+<p>The dedupe map lives in <code>ConfigMap/kpulse-state</code> (key <code>dedupe.json</code>). To force kpulse to "forget" everything and re-fire all current alerts, use the reset endpoint:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/reset-dedupe
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># -&gt; {&quot;active_cleared&quot;:3,&quot;dedupe_cleared&quot;:7,&quot;state_persisted&quot;:true}</span>
+</code></pre></div>
+<p>This clears the in-memory active-alert set, the dedupe history, and the persisted state ConfigMap in one shot. No restart needed; the next monitor scan will re-fire anything still wrong.</p>
+<p>If you prefer kubectl-only (for example without a port-forward), the previous procedure still works but needs scale-to-zero to avoid the on-shutdown re-save race:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>scale<span class="w"> </span>deploy/kpulse<span class="w"> </span>--replicas<span class="o">=</span><span class="m">0</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span>delete<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/instance<span class="o">=</span>kpulse<span class="w"> </span>--timeout<span class="o">=</span>60s
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>delete<span class="w"> </span>configmap<span class="w"> </span>kpulse-state<span class="w"> </span>--ignore-not-found
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>scale<span class="w"> </span>deploy/kpulse<span class="w"> </span>--replicas<span class="o">=</span><span class="m">1</span>
 </code></pre></div>
 
 
