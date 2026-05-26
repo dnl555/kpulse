@@ -74,12 +74,25 @@ If you see the test message in your channel, credentials and connectivity are go
 | `/readyz` | Readiness probe target; `200` once monitors have started |
 | `/metrics` | Self-metrics (only kpulse's own counters; not a Prometheus scrape target for the cluster) |
 | `/test-channel?name=...` | See above |
+| `POST /reset-dedupe` | Clear in-memory active set, dedupe history, and the persisted state ConfigMap |
 
 ## Inspecting state
 
-The dedupe map lives in `ConfigMap/kpulse-state` (key `dedupe.json`). To force kpulse to "forget" everything and re-fire all current alerts:
+The dedupe map lives in `ConfigMap/kpulse-state` (key `dedupe.json`). To force kpulse to "forget" everything and re-fire all current alerts, use the reset endpoint:
 
 ```bash
-kubectl -n kpulse delete configmap kpulse-state
-kubectl -n kpulse rollout restart deploy/kpulse
+kubectl -n kpulse port-forward svc/kpulse 8080:8080 &
+curl -X POST http://localhost:8080/reset-dedupe
+# -> {"active_cleared":3,"dedupe_cleared":7,"state_persisted":true}
+```
+
+This clears the in-memory active-alert set, the dedupe history, and the persisted state ConfigMap in one shot. No restart needed; the next monitor scan will re-fire anything still wrong.
+
+If you prefer kubectl-only (for example without a port-forward), the previous procedure still works but needs scale-to-zero to avoid the on-shutdown re-save race:
+
+```bash
+kubectl -n kpulse scale deploy/kpulse --replicas=0
+kubectl -n kpulse wait --for=delete pod -l app.kubernetes.io/instance=kpulse --timeout=60s
+kubectl -n kpulse delete configmap kpulse-state --ignore-not-found
+kubectl -n kpulse scale deploy/kpulse --replicas=1
 ```

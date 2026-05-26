@@ -47,3 +47,12 @@ func (d *Deduper) Restore(m map[string]time.Time) {
 		d.last[k] = v
 	}
 }
+
+// Reset drops every remembered dedupe entry. Returns how many were cleared.
+func (d *Deduper) Reset() int {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	n := len(d.last)
+	d.last = map[string]time.Time{}
+	return n
+}

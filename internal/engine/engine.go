@@ -3,6 +3,7 @@ package engine
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"sync"
 	"time"
@@ -112,6 +113,20 @@ func (e *Engine) RestoreActive(m map[string]alert.Alert) {
 	}
 }
 
+// Reset clears the in-memory active-alert set AND the dedupe history.
+// Returns (active, dedupe) counts that were cleared.
+func (e *Engine) Reset() (int, int) {
+	e.mu.Lock()
+	activeN := len(e.active)
+	e.active = map[string]alert.Alert{}
+	e.mu.Unlock()
+	dedupeN := 0
+	if e.opts.Dedupe != nil {
+		dedupeN = e.opts.Dedupe.Reset()
+	}
+	return activeN, dedupeN
+}
+
 func (e *Engine) Run(ctx context.Context) {
 	var tickC <-chan time.Time
 	if e.opts.DigestEnabled && e.opts.DigestInterval > 0 {
@@ -160,7 +175,10 @@ func (e *Engine) handleFire(ctx context.Context, a alert.Alert) {
 		return
 	}
 	channels := e.opts.Router.Channels(a)
-	_ = e.opts.Registry.Send(ctx, a, channels)
+	if err := e.opts.Registry.Send(ctx, a, channels); err != nil {
+		log.Printf("notifier send failed (monitor=%s severity=%s object=%s/%s): %v",
+			a.Monitor, a.Severity.String(), a.Namespace, a.Object(), err)
+	}
 }
 
 func (e *Engine) handleResolve(ctx context.Context, a alert.Alert) {
@@ -179,7 +197,10 @@ func (e *Engine) handleResolve(ctx context.Context, a alert.Alert) {
 	}
 	resolved := mergeResolved(prev, a)
 	channels := e.opts.Router.Channels(resolved)
-	_ = e.opts.Registry.Send(ctx, resolved, channels)
+	if err := e.opts.Registry.Send(ctx, resolved, channels); err != nil {
+		log.Printf("notifier send failed (monitor=%s state=resolved object=%s/%s): %v",
+			resolved.Monitor, resolved.Namespace, resolved.Object(), err)
+	}
 }
 
 func (e *Engine) handleReconcile(ctx context.Context, monitor string, firing []alert.Alert) {
@@ -207,7 +228,10 @@ func (e *Engine) handleReconcile(ctx context.Context, monitor string, firing []a
 	for _, prev := range toResolve {
 		resolved := mergeResolved(prev, alert.Alert{})
 		channels := e.opts.Router.Channels(resolved)
-		_ = e.opts.Registry.Send(ctx, resolved, channels)
+		if err := e.opts.Registry.Send(ctx, resolved, channels); err != nil {
+			log.Printf("notifier send failed (monitor=%s state=resolved object=%s/%s): %v",
+				resolved.Monitor, resolved.Namespace, resolved.Object(), err)
+		}
 	}
 }
 
@@ -248,7 +272,9 @@ func (e *Engine) flushDigest(ctx context.Context) {
 		FiredAt: time.Now().UTC(),
 	}
 	channels := e.opts.Router.Channels(digest)
-	_ = e.opts.Registry.Send(ctx, digest, channels)
+	if err := e.opts.Registry.Send(ctx, digest, channels); err != nil {
+		log.Printf("notifier send failed (digest, %d alerts): %v", len(batch), err)
+	}
 }
 
 func containsSev(list []alert.Severity, s alert.Severity) bool {
