@@ -73,7 +73,7 @@ data:
         smtp_host: smtp.gmail.com
         smtp_port: 587
         from: alerts@example.com
-        to: [dnl555@gmail.com]
+        to: [you@example.com]
         user_from_secret: SMTP_USER
         pass_from_secret: SMTP_PASS
       webhook:
