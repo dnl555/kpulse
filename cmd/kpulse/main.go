@@ -114,7 +114,7 @@ func main() {
 	isReady = true
 	readyMu.Unlock()
 
-	srv := httpsrv.New(reg, getReady)
+	srv := httpsrv.New(reg, getReady).WithReset(eng, store)
 	go func() {
 		if err := srv.ListenAndServe(ctx, *httpAddr); err != nil && err.Error() != "http: Server closed" {
 			log.Printf("http: %v", err)

@@ -51,6 +51,17 @@ func (s *Store) Save(ctx context.Context, dedupe map[string]time.Time) error {
 	return err
 }
 
+// Clear deletes the persisted dedupe ConfigMap. Safe to call when it does
+// not exist (returns nil). Used by /reset-dedupe so that the next snapshot
+// loop does not re-rehydrate the entries we just cleared in memory.
+func (s *Store) Clear(ctx context.Context) error {
+	err := s.cs.CoreV1().ConfigMaps(s.namespace).Delete(ctx, s.name, metav1.DeleteOptions{})
+	if apierrors.IsNotFound(err) {
+		return nil
+	}
+	return err
+}
+
 func (s *Store) Load(ctx context.Context) (map[string]time.Time, error) {
 	cm, err := s.cs.CoreV1().ConfigMaps(s.namespace).Get(ctx, s.name, metav1.GetOptions{})
 	if apierrors.IsNotFound(err) {
