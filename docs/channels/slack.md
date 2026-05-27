@@ -42,16 +42,25 @@ curl 'http://localhost:8080/test-channel?name=slack'
 
 ## Message format
 
+What kpulse sends to Slack (raw):
+
 ```
 :rotating_light: *[prod-eks-1]* `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
 Container server in pod checkout/api-7d9f is in state OOMKilled
 ```
 
+What Slack renders:
+
+> 🚨 **[prod-eks-1]** `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
+> Container server in pod checkout/api-7d9f is in state OOMKilled
+
 Severity emoji:
 
-- `:information_source:` info
-- `:warning:` warning
-- `:rotating_light:` critical
+| Severity | Slack code | Renders as |
+|---|---|---|
+| info | `:information_source:` | ℹ️ |
+| warning | `:warning:` | ⚠️ |
+| critical | `:rotating_light:` | 🚨 |
 
 ## Helm
 

@@ -40,6 +40,25 @@ smtp_port: 587
 
 Use SMTP credentials from SES (not your IAM keys).
 
+## Message format
+
+Subject template:
+
+```
+[<cluster>] <prefix> <title>
+```
+
+`<prefix>` is the severity / state marker:
+
+| Severity | Prefix | Banner color |
+|---|---|---|
+| info | `[i]` | blue (#2563eb) |
+| warning | `[!]` | orange (#d97706) |
+| critical | `[!!]` | red (#dc2626) |
+| resolved (any prior severity) | `[RESOLVED]` | green (#10b981) |
+
+The HTML body renders a colored banner matching the table above, followed by a metadata grid (cluster, namespace, object, reason, severity, fired-at) and the body text. A plain-text alternative is included so CLI mail clients fall back gracefully.
+
 ## Headers added
 
 Each email includes:
@@ -47,9 +66,9 @@ Each email includes:
 - `Date`, `Message-ID`
 - `List-Id: kpulse-<cluster> <kpulse.<cluster>.local>` (use for Gmail filters)
 - `Auto-Submitted: auto-generated`
-- `X-Kpulse-Cluster`, `X-Kpulse-Monitor`, `X-Kpulse-Severity`
+- `X-Kpulse-Cluster`, `X-Kpulse-Monitor`, `X-Kpulse-Severity`, `X-Kpulse-State`
 
-A Gmail filter like `list:kpulse-prod-eks-1` matches every kpulse alert for that cluster.
+A Gmail filter like `list:kpulse-prod-eks-1` matches every kpulse alert for that cluster. To route resolved messages to a separate label, add a filter on `"X-Kpulse-State: resolved"` (Gmail's "Has the words" search matches headers verbatim).
 
 ## Test
 

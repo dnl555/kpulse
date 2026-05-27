@@ -30,6 +30,15 @@ stringData:
 Container server in pod checkout/api-7d9f is in state OOMKilled
 ```
 
+Severity prefix:
+
+| Severity | Prefix |
+|---|---|
+| info | `[i]` |
+| warning | `[!]` |
+| critical | `[!!]` |
+| resolved | `[OK] **[RESOLVED]**` |
+
 Discord caps content at 2000 chars; kpulse truncates at 1900 and appends `(truncated)`.
 
 ## Test
