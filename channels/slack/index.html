@@ -1512,15 +1512,42 @@
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span><span class="s1">&#39;http://localhost:8080/test-channel?name=slack&#39;</span>
 </code></pre></div>
 <h2 id="message-format">Message format<a class="headerlink" href="#message-format" title="Permanent link">&para;</a></h2>
+<p>What kpulse sends to Slack (raw):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:rotating_light: *[prod-eks-1]* `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Container server in pod checkout/api-7d9f is in state OOMKilled
 </code></pre></div>
+<p>What Slack renders:</p>
+<blockquote>
+<p>🚨 <strong>[prod-eks-1]</strong> <code>checkout/pod/api-7d9f</code> OOMKilled on api-7d9f/server
+Container server in pod checkout/api-7d9f is in state OOMKilled</p>
+</blockquote>
 <p>Severity emoji:</p>
-<ul>
-<li><code>:information_source:</code> info</li>
-<li><code>:warning:</code> warning</li>
-<li><code>:rotating_light:</code> critical</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Slack code</th>
+<th>Renders as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>info</td>
+<td><code>:information_source:</code></td>
+<td>ℹ️</td>
+</tr>
+<tr>
+<td>warning</td>
+<td><code>:warning:</code></td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td>critical</td>
+<td><code>:rotating_light:</code></td>
+<td>🚨</td>
+</tr>
+</tbody>
+</table>
 <h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>kpulse<span class="w"> </span>oci://ghcr.io/dnl555/charts/kpulse<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>

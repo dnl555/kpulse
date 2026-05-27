@@ -1502,6 +1502,33 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[!!] **[prod-eks-1]** `checkout/pod/api-7d9f` OOMKilled on api-7d9f/server
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Container server in pod checkout/api-7d9f is in state OOMKilled
 </code></pre></div>
+<p>Severity prefix:</p>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Prefix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>info</td>
+<td><code>[i]</code></td>
+</tr>
+<tr>
+<td>warning</td>
+<td><code>[!]</code></td>
+</tr>
+<tr>
+<td>critical</td>
+<td><code>[!!]</code></td>
+</tr>
+<tr>
+<td>resolved</td>
+<td><code>[OK] **[RESOLVED]**</code></td>
+</tr>
+</tbody>
+</table>
 <p>Discord caps content at 2000 chars; kpulse truncates at 1900 and appends <code>(truncated)</code>.</p>
 <h2 id="test">Test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>

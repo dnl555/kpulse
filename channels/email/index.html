@@ -672,6 +672,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#message-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#headers-added" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1449,6 +1460,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#message-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#headers-added" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1535,29 +1557,66 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">smtp_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">587</span>
 </code></pre></div>
 <p>Use SMTP credentials from SES (not your IAM keys).</p>
+<h2 id="message-format">Message format<a class="headerlink" href="#message-format" title="Permanent link">&para;</a></h2>
+<p>Subject template:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[&lt;cluster&gt;] &lt;prefix&gt; &lt;title&gt;
+</code></pre></div>
+<p><code>&lt;prefix&gt;</code> is the severity / state marker:</p>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Prefix</th>
+<th>Banner color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>info</td>
+<td><code>[i]</code></td>
+<td>blue (#2563eb)</td>
+</tr>
+<tr>
+<td>warning</td>
+<td><code>[!]</code></td>
+<td>orange (#d97706)</td>
+</tr>
+<tr>
+<td>critical</td>
+<td><code>[!!]</code></td>
+<td>red (#dc2626)</td>
+</tr>
+<tr>
+<td>resolved (any prior severity)</td>
+<td><code>[RESOLVED]</code></td>
+<td>green (#10b981)</td>
+</tr>
+</tbody>
+</table>
+<p>The HTML body renders a colored banner matching the table above, followed by a metadata grid (cluster, namespace, object, reason, severity, fired-at) and the body text. A plain-text alternative is included so CLI mail clients fall back gracefully.</p>
 <h2 id="headers-added">Headers added<a class="headerlink" href="#headers-added" title="Permanent link">&para;</a></h2>
 <p>Each email includes:</p>
 <ul>
 <li><code>Date</code>, <code>Message-ID</code></li>
 <li><code>List-Id: kpulse-&lt;cluster&gt; &lt;kpulse.&lt;cluster&gt;.local&gt;</code> (use for Gmail filters)</li>
 <li><code>Auto-Submitted: auto-generated</code></li>
-<li><code>X-Kpulse-Cluster</code>, <code>X-Kpulse-Monitor</code>, <code>X-Kpulse-Severity</code></li>
+<li><code>X-Kpulse-Cluster</code>, <code>X-Kpulse-Monitor</code>, <code>X-Kpulse-Severity</code>, <code>X-Kpulse-State</code></li>
 </ul>
-<p>A Gmail filter like <code>list:kpulse-prod-eks-1</code> matches every kpulse alert for that cluster.</p>
+<p>A Gmail filter like <code>list:kpulse-prod-eks-1</code> matches every kpulse alert for that cluster. To route resolved messages to a separate label, add a filter on <code>"X-Kpulse-State: resolved"</code> (Gmail's "Has the words" search matches headers verbatim).</p>
 <h2 id="test">Test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>curl<span class="w"> </span><span class="s1">&#39;http://localhost:8080/test-channel?name=email&#39;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>-n<span class="w"> </span>kpulse<span class="w"> </span>port-forward<span class="w"> </span>svc/kpulse<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>curl<span class="w"> </span><span class="s1">&#39;http://localhost:8080/test-channel?name=email&#39;</span>
 </code></pre></div>
 <h2 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>kpulse<span class="w"> </span>oci://ghcr.io/dnl555/charts/kpulse<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.smtpHost<span class="o">=</span>smtp.fastmail.com<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.smtpPort<span class="o">=</span><span class="m">587</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.from<span class="o">=</span>alerts@example.com<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span>--set<span class="w"> </span><span class="s1">&#39;channels.email.to={oncall@example.com}&#39;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SMTP_USER<span class="o">=</span>alerts@example.com<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SMTP_PASS<span class="o">=</span>hunter2
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>kpulse<span class="w"> </span>oci://ghcr.io/dnl555/charts/kpulse<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.smtpHost<span class="o">=</span>smtp.fastmail.com<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.smtpPort<span class="o">=</span><span class="m">587</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>--set<span class="w"> </span>channels.email.from<span class="o">=</span>alerts@example.com<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span>--set<span class="w"> </span><span class="s1">&#39;channels.email.to={oncall@example.com}&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SMTP_USER<span class="o">=</span>alerts@example.com<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span>--set-string<span class="w"> </span>channels.secrets.SMTP_PASS<span class="o">=</span>hunter2
 </code></pre></div>
 
 
