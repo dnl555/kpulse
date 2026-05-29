@@ -42,6 +42,7 @@ type EmailChannel struct {
 	SMTPHost       string   `yaml:"smtp_host"`
 	SMTPPort       int      `yaml:"smtp_port"`
 	From           string   `yaml:"from"`
+	ReplyTo        string   `yaml:"reply_to,omitempty"`
 	To             []string `yaml:"to"`
 	UserFromSecret string   `yaml:"user_from_secret"`
 	PassFromSecret string   `yaml:"pass_from_secret"`

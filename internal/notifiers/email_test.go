@@ -176,6 +176,38 @@ func TestEmailWithAttachments(t *testing.T) {
 	}
 }
 
+func TestEmailFromWithDisplayNameAndReplyTo(t *testing.T) {
+	f := &fakeSMTP{}
+	e := newTestEmail(f)
+	e.from = `"Kpulse Alerts" <alerts@updates.example.com>`
+	e.replyTo = "team@example.com"
+	if err := e.Send(context.Background(), sampleAlert()); err != nil {
+		t.Fatal(err)
+	}
+	// SMTP envelope (MAIL FROM) must be the bare address, not the display name.
+	if f.from != "alerts@updates.example.com" {
+		t.Errorf("envelope from = %q, want bare address", f.from)
+	}
+	h := headers(f.msg)
+	if h["from"] != `"Kpulse Alerts" <alerts@updates.example.com>` {
+		t.Errorf("From header = %q", h["from"])
+	}
+	if h["reply-to"] != "team@example.com" {
+		t.Errorf("Reply-To header = %q", h["reply-to"])
+	}
+}
+
+func TestEmailReplyToOmittedByDefault(t *testing.T) {
+	f := &fakeSMTP{}
+	e := newTestEmail(f) // no WithReplyTo
+	if err := e.Send(context.Background(), sampleAlert()); err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := headers(f.msg)["reply-to"]; ok {
+		t.Error("Reply-To should not be emitted when not configured")
+	}
+}
+
 func TestSubjectTruncation(t *testing.T) {
 	got := truncateSubject(strings.Repeat("x", 200))
 	if len(got) != subjectMaxLen {

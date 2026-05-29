@@ -51,14 +51,24 @@ func (s *Store) Save(ctx context.Context, dedupe map[string]time.Time) error {
 	return err
 }
 
-// Clear deletes the persisted dedupe ConfigMap. Safe to call when it does
-// not exist (returns nil). Used by /reset-dedupe so that the next snapshot
-// loop does not re-rehydrate the entries we just cleared in memory.
+// Clear empties the persisted dedupe ConfigMap by writing "{}" to it. Does
+// NOT delete the object so the bundled Role does not need the delete verb
+// (Kubernetes RBAC also makes resourceNames-restricted delete awkward).
+// Used by /reset-dedupe; the next snapshot loop overwrites with the same
+// empty map, so the world converges either way.
 func (s *Store) Clear(ctx context.Context) error {
-	err := s.cs.CoreV1().ConfigMaps(s.namespace).Delete(ctx, s.name, metav1.DeleteOptions{})
+	cm, err := s.cs.CoreV1().ConfigMaps(s.namespace).Get(ctx, s.name, metav1.GetOptions{})
 	if apierrors.IsNotFound(err) {
 		return nil
 	}
+	if err != nil {
+		return err
+	}
+	if cm.Data == nil {
+		cm.Data = map[string]string{}
+	}
+	cm.Data["dedupe.json"] = "{}"
+	_, err = s.cs.CoreV1().ConfigMaps(s.namespace).Update(ctx, cm, metav1.UpdateOptions{})
 	return err
 }
 

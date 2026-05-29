@@ -16,15 +16,20 @@ import (
 )
 
 type RolloutStuck struct {
-	cs   kubernetes.Interface
-	cfg  *config.Config
-	now  func() time.Time
-	mu   sync.Mutex
-	seen map[string]struct{} // key = kind|namespace|name
+	cs    kubernetes.Interface
+	cfg   *config.Config
+	now   func() time.Time
+	mu    sync.Mutex
+	seen  map[string]struct{}  // fired alerts: key -> present
+	since map[string]time.Time // key -> first-time-we-saw-this-rollout-in-progress
 }
 
 func NewRolloutStuck(cs kubernetes.Interface, cfg *config.Config) *RolloutStuck {
-	return &RolloutStuck{cs: cs, cfg: cfg, now: time.Now, seen: map[string]struct{}{}}
+	return &RolloutStuck{
+		cs: cs, cfg: cfg, now: time.Now,
+		seen:  map[string]struct{}{},
+		since: map[string]time.Time{},
+	}
 }
 
 func (m *RolloutStuck) markFiring(k string) {
@@ -40,7 +45,31 @@ func (m *RolloutStuck) clearFiring(k string) bool {
 	if ok {
 		delete(m.seen, k)
 	}
+	delete(m.since, k)
 	return ok
+}
+
+// rolloutStartedAt records the first time we observed an in-progress rollout
+// for a given key. If we already had a timestamp, return it; otherwise stamp
+// "now" and return that. Caller decides whether enough time has elapsed.
+func (m *RolloutStuck) rolloutStartedAt(k string) time.Time {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if t, ok := m.since[k]; ok {
+		return t
+	}
+	t := m.now()
+	m.since[k] = t
+	return t
+}
+
+// rolloutHealthy clears the "since" stamp for a key. Used when the workload
+// reports a healthy state, so the next time it gets updated we restart the
+// stuck-detection timer from zero.
+func (m *RolloutStuck) rolloutHealthy(k string) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	delete(m.since, k)
 }
 
 func (m *RolloutStuck) Name() string { return "rollout_stuck" }
@@ -106,7 +135,16 @@ func (m *RolloutStuck) Run(ctx context.Context, sub Submitter) error {
 			return
 		}
 		key := "StatefulSet|" + s.Namespace + "|" + s.Name
-		stuck := s.Status.ReadyReplicas < s.Status.Replicas && m.now().Sub(s.CreationTimestamp.Time) > threshold
+		// In-progress rollout: not all replicas are Ready, or revisions don't match.
+		inProgress := s.Status.ReadyReplicas < s.Status.Replicas ||
+			(s.Status.UpdateRevision != "" && s.Status.UpdateRevision != s.Status.CurrentRevision)
+		stuck := false
+		if inProgress {
+			startedAt := m.rolloutStartedAt(key)
+			stuck = m.now().Sub(startedAt) > threshold
+		} else {
+			m.rolloutHealthy(key)
+		}
 		if stuck {
 			sub.Submit(alert.Alert{
 				Monitor: m.Name(), Severity: alert.Warning,
@@ -116,7 +154,7 @@ func (m *RolloutStuck) Run(ctx context.Context, sub Submitter) error {
 				Body:   fmt.Sprintf("Ready %d of %d for > %s", s.Status.ReadyReplicas, s.Status.Replicas, threshold),
 			})
 			m.markFiring(key)
-		} else if m.clearFiring(key) {
+		} else if !inProgress && m.clearFiring(key) {
 			sub.Resolve(alert.Alert{
 				Monitor: m.Name(), Namespace: s.Namespace, ObjectKind: "StatefulSet", ObjectName: s.Name,
 				Reason: "RolloutStuck",

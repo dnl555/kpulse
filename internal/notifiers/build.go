@@ -19,7 +19,11 @@ func Build(cfg *config.Config, sec config.SecretMap) (*Registry, error) {
 	if cfg.Channels.Email.SMTPHost != "" && len(cfg.Channels.Email.To) > 0 {
 		u, _ := sec.Get(cfg.Channels.Email.UserFromSecret)
 		p, _ := sec.Get(cfg.Channels.Email.PassFromSecret)
-		r.Register(NewEmail(cfg.Channels.Email.SMTPHost, cfg.Channels.Email.SMTPPort, u, p, cfg.Channels.Email.From, cfg.Channels.Email.To))
+		email := NewEmail(cfg.Channels.Email.SMTPHost, cfg.Channels.Email.SMTPPort, u, p, cfg.Channels.Email.From, cfg.Channels.Email.To)
+		if cfg.Channels.Email.ReplyTo != "" {
+			email = email.WithReplyTo(cfg.Channels.Email.ReplyTo)
+		}
+		r.Register(email)
 	}
 	if cfg.Channels.Webhook.URL != "" {
 		h, err := sec.ExpandMap(cfg.Channels.Webhook.Headers)

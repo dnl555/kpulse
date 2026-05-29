@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html"
 	"mime/multipart"
+	"net/mail"
 	"net/smtp"
 	"net/textproto"
 	"strings"
@@ -32,7 +33,8 @@ type Email struct {
 	port     int
 	username string
 	password string
-	from     string
+	from     string // accepted forms: "addr@host" OR `"Display Name" <addr@host>`
+	replyTo  string // optional Reply-To header (same accepted forms as from)
 	to       []string
 	sender   smtpSender
 	now      func() time.Time
@@ -40,6 +42,26 @@ type Email struct {
 
 func NewEmail(host string, port int, user, pass, from string, to []string) *Email {
 	return &Email{host: host, port: port, username: user, password: pass, from: from, to: to, sender: realSMTP{}, now: time.Now}
+}
+
+// WithReplyTo sets an optional Reply-To header so that recipients hitting
+// "reply" land in a different inbox than the (often unmonitored) From address.
+// Returns the receiver for chained construction.
+func (e *Email) WithReplyTo(replyTo string) *Email {
+	e.replyTo = replyTo
+	return e
+}
+
+// envelopeAddr extracts the bare address from a string that may be either
+// "addr@host" or a full RFC 5322 mailbox like `"Display" <addr@host>`. The
+// SMTP MAIL FROM command rejects display names, so we always strip them
+// before passing to smtp.SendMail. The original (possibly-named) string is
+// still used verbatim in the From: header.
+func envelopeAddr(raw string) string {
+	if a, err := mail.ParseAddress(raw); err == nil {
+		return a.Address
+	}
+	return raw
 }
 
 func (e *Email) Name() string { return "email" }
@@ -56,7 +78,7 @@ func (e *Email) Send(_ context.Context, a alert.Alert) error {
 		auth = smtp.PlainAuth("", e.username, e.password, e.host)
 	}
 	addr := fmt.Sprintf("%s:%d", e.host, e.port)
-	return e.sender.SendMail(addr, auth, e.from, e.to, msg)
+	return e.sender.SendMail(addr, auth, envelopeAddr(e.from), e.to, msg)
 }
 
 func (e *Email) compose(a alert.Alert) ([]byte, error) {
@@ -83,6 +105,9 @@ func (e *Email) compose(a alert.Alert) ([]byte, error) {
 
 	writeHeader := func(k, v string) { fmt.Fprintf(&out, "%s: %s\r\n", k, v) }
 	writeHeader("From", e.from)
+	if e.replyTo != "" {
+		writeHeader("Reply-To", e.replyTo)
+	}
 	writeHeader("To", strings.Join(e.to, ", "))
 	writeHeader("Subject", subj)
 	writeHeader("Date", now.UTC().Format(time.RFC1123Z))
