@@ -1,20 +1,25 @@
+version: "2"
+
 run:
   timeout: 5m
+
 linters:
+  default: none
   enable:
     - errcheck
-    - gofmt
     - govet
     - ineffassign
     - misspell
     - revive
     - staticcheck
     - unused
-linters-settings:
-  revive:
-    rules:
-      # We default to writing no comments. Don't demand docstrings on every export.
-      - name: exported
-        disabled: true
-issues:
-  exclude-use-default: false
+  settings:
+    revive:
+      rules:
+        # We default to writing no comments. Don't demand docstrings on every export.
+        - name: exported
+          disabled: true
+
+formatters:
+  enable:
+    - gofmt
