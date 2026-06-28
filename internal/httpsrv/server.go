@@ -277,7 +277,7 @@ func (s *Server) handleUI(w http.ResponseWriter, r *http.Request) {
 	}
 	f, err := s.uiFS.Open(path)
 	if err == nil {
-		defer f.Close()
+		defer func() { _ = f.Close() }()
 		http.ServeContent(w, r, path, time.Time{}, f.(readSeeker))
 		return
 	}
@@ -287,7 +287,7 @@ func (s *Server) handleUI(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	http.ServeContent(w, r, "index.html", time.Time{}, f.(readSeeker))
 }
