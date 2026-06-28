@@ -115,6 +115,11 @@ func main() {
 	readyMu.Unlock()
 
 	srv := httpsrv.New(reg, getReady).WithReset(eng, store)
+	startedAt := time.Now().UTC()
+	if cfg.UI.Enabled {
+		srv = srv.WithUI(eng, clusterInfoFn(cfg, startedAt), monitorsViewFn(cfg), httpsrv.UIFS())
+		log.Print("UI enabled, serving at /")
+	}
 	go func() {
 		if err := srv.ListenAndServe(ctx, *httpAddr); err != nil && err.Error() != "http: Server closed" {
 			log.Printf("http: %v", err)
@@ -241,6 +246,48 @@ func buildMonitors(cs kubernetes.Interface, cfg *config.Config) []monitors.Monit
 		out = append(out, monitors.NewDaemonSetUnscheduled(cs, cfg))
 	}
 	return out
+}
+
+// clusterInfoFn returns a closure that produces the snapshot the UI's
+// /api/v1/cluster endpoint serves. We capture the runtime config + startup
+// timestamp once; everything else (uptime, etc.) is derived in the UI.
+func clusterInfoFn(cfg *config.Config, startedAt time.Time) func() httpsrv.ClusterInfo {
+	return func() httpsrv.ClusterInfo {
+		return httpsrv.ClusterInfo{
+			Name:              cfg.Cluster.Name,
+			Version:           version,
+			StartedAt:         startedAt,
+			NamespacesInclude: cfg.Namespaces.Include,
+			NamespacesExclude: cfg.Namespaces.Exclude,
+			DedupeWindow:      cfg.Dedupe.Window.String(),
+			DigestEnabled:     cfg.Dedupe.Digest.Enabled,
+			DigestInterval:    cfg.Dedupe.Digest.Interval.String(),
+			ResolutionEnabled: cfg.Resolution.Enabled,
+		}
+	}
+}
+
+// monitorsViewFn returns a closure that lists every built-in monitor with its
+// enabled flag + per-monitor knobs, for the UI's /api/v1/monitors endpoint.
+// The engine merges per-monitor fires/resolves on top of this view.
+func monitorsViewFn(cfg *config.Config) httpsrv.MonitorsProvider {
+	return func() []httpsrv.MonitorView {
+		m := cfg.Monitors
+		return []httpsrv.MonitorView{
+			{Name: "pod_crashes", Enabled: m.PodCrashes.Enabled, Knobs: map[string]any{"reasons": m.PodCrashes.Reasons, "include_recent_logs": m.PodCrashes.IncludeRecentLogs}},
+			{Name: "pod_restarts", Enabled: m.PodRestarts.Enabled, Knobs: map[string]any{"threshold": m.PodRestarts.Threshold, "window": m.PodRestarts.Window.String()}},
+			{Name: "warning_events", Enabled: m.WarningEvents.Enabled, Knobs: map[string]any{"reasons_ignore": m.WarningEvents.ReasonsIgnore}},
+			{Name: "pvc_usage", Enabled: m.PVCUsage.Enabled, Knobs: map[string]any{"warn_at": m.PVCUsage.WarnAt, "crit_at": m.PVCUsage.CritAt, "interval": m.PVCUsage.Interval.String()}},
+			{Name: "node_conditions", Enabled: m.NodeConditions.Enabled, Knobs: map[string]any{"alert_on": m.NodeConditions.AlertOn}},
+			{Name: "node_disk", Enabled: m.NodeDisk.Enabled, Knobs: map[string]any{"warn_at": m.NodeDisk.WarnAt, "crit_at": m.NodeDisk.CritAt, "interval": m.NodeDisk.Interval.String()}},
+			{Name: "tls_cert_expiry", Enabled: m.TLSCertExpiry.Enabled, Knobs: map[string]any{"warn_days": m.TLSCertExpiry.WarnDays, "crit_days": m.TLSCertExpiry.CritDays, "interval": m.TLSCertExpiry.Interval.String()}},
+			{Name: "rollout_stuck", Enabled: m.RolloutStuck.Enabled, Knobs: map[string]any{"threshold": m.RolloutStuck.Threshold.String()}},
+			{Name: "job_failed", Enabled: m.JobFailed.Enabled},
+			{Name: "cronjob_missed", Enabled: m.CronJobMissed.Enabled, Knobs: map[string]any{"miss_threshold": m.CronJobMissed.MissThreshold}},
+			{Name: "hpa_at_max", Enabled: m.HPAAtMax.Enabled, Knobs: map[string]any{"duration": m.HPAAtMax.Duration.String()}},
+			{Name: "daemonset_unscheduled", Enabled: m.DaemonSetUnscheduled.Enabled, Knobs: map[string]any{"threshold": m.DaemonSetUnscheduled.Threshold.String()}},
+		}
+	}
 }
 
 func snapshotLoop(ctx context.Context, st *state.Store, d *engine.Deduper) {

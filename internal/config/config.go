@@ -15,10 +15,18 @@ type Config struct {
 	Monitors   Monitors        `yaml:"monitors"`
 	Dedupe     Dedupe          `yaml:"dedupe"`
 	Resolution Resolution      `yaml:"resolution"`
+	UI         UI              `yaml:"ui"`
 	Routing    []RoutingRule   `yaml:"routing"`
 }
 
 type Resolution struct {
+	Enabled bool `yaml:"enabled"`
+}
+
+// UI controls the embedded read-only browser UI at /. Off by default so
+// existing installs keep their tiny surface area; opt-in for ops teams who
+// want to point a port-forward at it.
+type UI struct {
 	Enabled bool `yaml:"enabled"`
 }
 

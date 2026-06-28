@@ -118,6 +118,12 @@ dedupe:
 resolution:
   enabled: true
 
+# Embedded read-only browser UI at / on the kpulse HTTP port. Off by default
+# so existing installs keep a tiny attack surface. Enable, then access via
+# `kubectl -n <ns> port-forward svc/kpulse 8080:8080` and open localhost:8080.
+ui:
+  enabled: false
+
 # Optional routing rules. First match wins. Empty = every alert -> default channel.
 # Example:
 #   routing:

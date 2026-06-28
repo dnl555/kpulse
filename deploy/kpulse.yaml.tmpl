@@ -143,6 +143,13 @@ data:
       # DaemonSet unscheduled, CronJob missed, Pod crashes recovering).
       enabled: true
 
+    ui:
+      # Embedded read-only browser UI at / on the kpulse HTTP port. Off by
+      # default; flip to true to enable, then:
+      #   kubectl -n kpulse port-forward svc/kpulse 8080:8080
+      # and open http://localhost:8080
+      enabled: false
+
     routing: []
 # NOTE: Secret/kpulse-secrets is intentionally not bundled. install.sh
 # creates it once if missing; subsequent re-applies of this manifest will

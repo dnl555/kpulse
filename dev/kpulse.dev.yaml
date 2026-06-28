@@ -104,6 +104,9 @@ data:
         severities: [info, warning]
     resolution:
       enabled: true
+
+    ui:
+      enabled: true
     routing: []
 # NOTE: Secret/kpulse-secrets is intentionally NOT defined here. The Tilt
 # pipeline (and ad-hoc Slack/SMTP test runs) populate it out-of-band with
@@ -161,4 +164,4 @@ spec:
         - name: config
           configMap: { name: kpulse-config, items: [{ key: config.yaml, path: config.yaml }] }
         - name: secrets
-          secret: { secretName: kpulse-secrets }
+          secret: { secretName: kpulse-secrets, optional: true }

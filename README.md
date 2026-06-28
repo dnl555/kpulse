@@ -100,6 +100,17 @@ Slack, SMTP email, generic webhook, Discord, Microsoft Teams. Pick any subset. E
 
 See [docs/channels.md](docs/channels.md) for configuration and routing.
 
+## Browser UI (opt-in)
+
+v0.3.0 ships an embedded read-only UI. Off by default. Flip `ui.enabled: true` in `kpulse-config`, port-forward, and open it:
+
+```bash
+kubectl -n kpulse port-forward svc/kpulse 8080:8080
+# open http://localhost:8080
+```
+
+Active alerts, recent activity, per-monitor counters, channel test buttons. ~25 KB embedded in the binary, zero runtime dependencies. See [docs/getting-started/ui.md](docs/getting-started/ui.md).
+
 ## What kpulse is NOT
 
 - **Not a metrics store.** No time series, no PromQL, no historical graphs.

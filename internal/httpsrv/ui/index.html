@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kpulse</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23111827'/%3E%3Cpath d='M4 18 L10 18 L13 8 L17 24 L20 14 L22 18 L28 18' stroke='%2310b981' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <aside id="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" class="logo">
+        <rect width="32" height="32" rx="6" fill="#111827"/>
+        <path d="M4 18 L10 18 L13 8 L17 24 L20 14 L22 18 L28 18" stroke="#10b981" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>kpulse</span>
+    </div>
+    <nav>
+      <a href="#/" data-route="dashboard" class="nav-link">Dashboard</a>
+      <a href="#/alerts" data-route="alerts" class="nav-link">Alerts</a>
+      <a href="#/monitors" data-route="monitors" class="nav-link">Monitors</a>
+      <a href="#/channels" data-route="channels" class="nav-link">Channels</a>
+      <a href="#/about" data-route="about" class="nav-link">About</a>
+    </nav>
+    <div class="footer">
+      <div class="cluster-name" id="sidebar-cluster">&hellip;</div>
+      <div class="version" id="sidebar-version">&hellip;</div>
+      <button id="theme-toggle" title="Toggle theme">&#9788;</button>
+    </div>
+  </aside>
+  <main id="content">
+    <div id="page-dashboard" class="page"></div>
+    <div id="page-alerts" class="page hidden"></div>
+    <div id="page-monitors" class="page hidden"></div>
+    <div id="page-channels" class="page hidden"></div>
+    <div id="page-about" class="page hidden"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

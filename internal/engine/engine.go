@@ -45,6 +45,8 @@ type Engine struct {
 
 	mu     sync.Mutex
 	active map[string]alert.Alert // key -> last-known firing alert
+
+	stats *statsRecorder
 }
 
 func New(o Options) *Engine {
@@ -52,7 +54,20 @@ func New(o Options) *Engine {
 		opts:   o,
 		in:     make(chan input, 256),
 		active: map[string]alert.Alert{},
+		stats:  newStatsRecorder(100),
 	}
+}
+
+// MonitorStats returns a snapshot of per-monitor counters for the UI.
+func (e *Engine) MonitorStats() []MonitorStats { return e.stats.Monitors() }
+
+// Recent returns the most recent alerts (newest first) for the UI feed.
+func (e *Engine) Recent() []RecentEntry { return e.stats.Recent() }
+
+// recordSent is called immediately after Registry.Send (success or failure)
+// so the UI activity feed reflects what kpulse attempted to deliver.
+func (e *Engine) recordSent(a alert.Alert, channels []string) {
+	e.stats.record(a, channels)
 }
 
 func (e *Engine) Submit(a alert.Alert) {
@@ -179,6 +194,7 @@ func (e *Engine) handleFire(ctx context.Context, a alert.Alert) {
 		log.Printf("notifier send failed (monitor=%s severity=%s object=%s/%s): %v",
 			a.Monitor, a.Severity.String(), a.Namespace, a.Object(), err)
 	}
+	e.recordSent(a, channels)
 }
 
 func (e *Engine) handleResolve(ctx context.Context, a alert.Alert) {
@@ -201,6 +217,7 @@ func (e *Engine) handleResolve(ctx context.Context, a alert.Alert) {
 		log.Printf("notifier send failed (monitor=%s state=resolved object=%s/%s): %v",
 			resolved.Monitor, resolved.Namespace, resolved.Object(), err)
 	}
+	e.recordSent(resolved, channels)
 }
 
 func (e *Engine) handleReconcile(ctx context.Context, monitor string, firing []alert.Alert) {
@@ -232,6 +249,7 @@ func (e *Engine) handleReconcile(ctx context.Context, monitor string, firing []a
 			log.Printf("notifier send failed (monitor=%s state=resolved object=%s/%s): %v",
 				resolved.Monitor, resolved.Namespace, resolved.Object(), err)
 		}
+		e.recordSent(resolved, channels)
 	}
 }
 
@@ -275,6 +293,7 @@ func (e *Engine) flushDigest(ctx context.Context) {
 	if err := e.opts.Registry.Send(ctx, digest, channels); err != nil {
 		log.Printf("notifier send failed (digest, %d alerts): %v", len(batch), err)
 	}
+	e.recordSent(digest, channels)
 }
 
 func containsSev(list []alert.Severity, s alert.Severity) bool {
