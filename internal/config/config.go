@@ -127,6 +127,10 @@ type PVCUsageMon struct {
 type NodeConditionsMon struct {
 	Enabled bool     `yaml:"enabled"`
 	AlertOn []string `yaml:"alert_on"`
+	// Grace is how long Ready must stay false before it is treated as an incident. Cluster
+	// autoscaling makes nodes NotReady in both directions as a matter of routine, and paging
+	// on that trains people to ignore node alerts. Other conditions are not delayed.
+	Grace time.Duration `yaml:"grace"`
 }
 type NodeDiskMon struct {
 	Enabled  bool          `yaml:"enabled"`
@@ -212,7 +216,7 @@ func defaults() *Config {
 				"InvalidDiskCapacity",
 			}},
 			PVCUsage:             PVCUsageMon{Enabled: true, WarnAt: 80, CritAt: 90, Interval: 10 * time.Minute},
-			NodeConditions:       NodeConditionsMon{Enabled: true, AlertOn: []string{"DiskPressure", "MemoryPressure", "PIDPressure", "NotReady"}},
+			NodeConditions:       NodeConditionsMon{Enabled: true, AlertOn: []string{"DiskPressure", "MemoryPressure", "PIDPressure", "NotReady"}, Grace: 5 * time.Minute},
 			NodeDisk:             NodeDiskMon{Enabled: true, WarnAt: 85, CritAt: 92, Interval: 10 * time.Minute},
 			TLSCertExpiry:        TLSCertExpiryMon{Enabled: true, WarnDays: 14, CritDays: 3, Interval: 6 * time.Hour},
 			RolloutStuck:         RolloutStuckMon{Enabled: true, Threshold: 15 * time.Minute},

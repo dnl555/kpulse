@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/dnl555/kpulse/internal/alert"
 	"github.com/dnl555/kpulse/internal/config"
@@ -34,6 +35,36 @@ func splitNodeCondKey(s string) [2]string {
 }
 
 func (m *NodeConditions) Name() string { return "node_conditions" }
+
+// shouldAlert decides whether a firing condition is worth waking someone for.
+//
+// A node on its way out of the cluster is NotReady by design, and a node that just joined is
+// NotReady until its kubelet settles. Both are routine capacity changes. Only a Ready state
+// that persists past the grace window is an incident. Pressure conditions are unrelated to
+// churn and are never delayed.
+func (m *NodeConditions) shouldAlert(n *corev1.Node, condName string, now time.Time) bool {
+	if condName != "NotReady" {
+		return true
+	}
+	if n.DeletionTimestamp != nil {
+		return false
+	}
+	for _, t := range n.Spec.Taints {
+		if t.Key == "ToBeDeletedByClusterAutoscaler" || t.Key == "node.kubernetes.io/unschedulable" {
+			return false
+		}
+	}
+	grace := m.cfg.Monitors.NodeConditions.Grace
+	if grace <= 0 {
+		return true
+	}
+	for _, c := range n.Status.Conditions {
+		if c.Type == corev1.NodeReady {
+			return now.Sub(c.LastTransitionTime.Time) >= grace
+		}
+	}
+	return true
+}
 
 func (m *NodeConditions) Run(ctx context.Context, sub Submitter) error {
 	alertOn := map[string]struct{}{}
@@ -69,6 +100,9 @@ func (m *NodeConditions) Run(ctx context.Context, sub Submitter) error {
 		}
 		// Fire each currently-firing.
 		for name, cond := range current {
+			if !m.shouldAlert(n, name, time.Now()) {
+				continue
+			}
 			sub.Submit(alert.Alert{
 				Monitor: m.Name(), Severity: alert.Critical,
 				ObjectKind: "Node", ObjectName: n.Name,
