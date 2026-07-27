@@ -2,110 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.kpulse.io/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/architecture/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/blog/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/blog/default-monitors/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/blog/dev-with-tilt/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/blog/resolved-alerts/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/blog/why-kpulse/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/channels/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/channels/discord/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/channels/email/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/channels/slack/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/channels/teams/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/channels/webhook/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/contributing/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/contributing/cloning-and-building/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/contributing/github-workflow/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/getting-started/app-configuration/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/getting-started/general-configuration/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/getting-started/installation/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/getting-started/resolved-alerts/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/getting-started/ui/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/monitors/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/monitors/node/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/monitors/pods/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/monitors/pvc/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/monitors/tls/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
     <url>
          <loc>https://docs.kpulse.io/monitors/workload/</loc>
-         <lastmod>2026-06-28</lastmod>
+         <lastmod>2026-07-27</lastmod>
     </url>
 </urlset>
